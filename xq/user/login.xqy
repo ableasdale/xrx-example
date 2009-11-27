@@ -4,6 +4,7 @@
 : @author Alex Bleasdale
 : @version 1.0
 :)
+xquery version "1.0-ml";
 import module namespace tix-include = "http://www.alexbleasdale.co.uk/tix-include" at "/xq/modules/include_module.xqy";
 <html xmlns="http://www.w3.org/1999/xhtml">
     {tix-include:getDocumentHead("Welcome to TiX - Please Log-in")}

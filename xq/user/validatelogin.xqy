@@ -4,6 +4,7 @@
 : @author Alex Bleasdale
 : @version 1.0
 :)
+xquery version "1.0-ml";
 import module namespace tix-common = "http://www.alexbleasdale.co.uk/tix-common" at "/xq/modules/common_module.xqy";
 
 let $user := xdmp:get-request-field ("user", ""),

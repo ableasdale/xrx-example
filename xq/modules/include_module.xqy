@@ -4,12 +4,10 @@
 : @author Alex Bleasdale
 : @version 1.0
 :)
-
 xquery version "1.0-ml";
 
 module namespace tix-include="http://www.alexbleasdale.co.uk/tix-include";
 import module "http://marklogic.com/xdmp/security" at "security.xqy";
-
 
 (:
 :: Summary:
@@ -45,9 +43,9 @@ declare function tix-include:getCurrentUserCredentials(){
     </div>
  else
     <div class="split-pane">
-            <p class="left">Currently Logged in as: <span class="user">{xdmp:get-current-user()}</span></p>
-            <p class="right"><a href="/xq/user/logout.xqy" title="This will end your TiX session">Logout</a></p>
-            <br class="clearboth" />
+        <p class="left">Currently Logged in as: <span class="user">{xdmp:get-current-user()}</span></p>
+        <p class="right"><a href="/xq/user/logout.xqy" title="This will end your TiX session">Logout</a></p>
+        <br class="clearboth" />
     </div>
  
  return $credentials-pane

@@ -4,7 +4,6 @@
 : @author Alex Bleasdale
 : @version 1.0
 :)
-
 xquery version "1.0-ml";
 
 module namespace tix-common="http://www.alexbleasdale.co.uk/tix-common";
@@ -113,4 +112,14 @@ declare function tix-common:validateLogin ($user as xs:string, $password as xs:s
         fn:true()
     else
         fn:false()
+};
+
+(:
+:: !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+:: TODO - talk to someone about how the XSLTForms PI can be injected into an xqy file. 
+:: This currently DOES NOT WORK
+:)
+declare function tix-common:generateXsltFormsPi(){
+    let $pi := "<?xml-stylesheet href='xsltforms/xsltforms.xsl' type='text/xsl'?>"
+    return (xdmp:unquote($pi))
 };
