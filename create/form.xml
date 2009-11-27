@@ -1,0 +1,238 @@
+<?xml-stylesheet href="/xsltforms/xsltforms.xsl" type="text/xsl"?>
+<?xsltforms-options debug="yes"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ev="http://www.w3.org/2001/xml-events"
+	xmlns:xforms="http://www.w3.org/2002/xforms"
+	xmlns:ibmxfg="http://www.ibm.com/standards/xfg"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <head> 
+	<title>Create a New Ticket | TiX</title>
+	<style type="text/css" media="screen, projection">
+    <![CDATA[
+       @namespace xf url("http://www.w3.org/2002/xforms");
+ 		
+ 		/* Beginning paste of styles.css as 
+ 		TODO - using a link rel doesn't appear to be working right now - talk to someone at ML / XSLTForms about a possible workaround?
+ 		I have a few ideas about how this may be solvable - this should suffice short-term though..
+ 		*/
+ 		
+ 		html, body {background:#fff; margin:0; padding:0; font-family:arial, helvetica, sans-serif; height:100%;}
+        body {width:75%; margin:auto; font-size:80%;}
+        a {color:maroon;}
+        
+        #container {min-height:100%; position:relative;}
+        p.inputfield input:focus {background:#f5f5dc;}
+        p.inputfield label {display:block; color:#37414a; font-weight:bold;}
+        p.inputfield input {width:15em;}
+        
+        .split-pane {padding: 0 1em;}
+        .clearboth {clear:both;}
+        .left {float:left;}
+        .right {float:right; text-align:right;}
+        .user {color:#f3f3cc;}
+        .information {color:maroon;}
+        .center {text-align:center;}
+        .strong {font-weight:bold;}
+        .cta-panel {background:#f5f5dc; margin-top:2em; padding:1em; border:1px dotted yellow;}
+        .cta-warning {background:pink; padding:1em; border:1px dotted red;}
+        .cta-info {background:white; padding:1em; border:1px dotted blue;}
+        
+        #header {background:#194e84;}
+        #header h1 {padding:0.5em 1em; margin:0;}
+        #header p, #footer p {width:50%; font-weight:bold; padding:0; margin:0.2em 0;}
+        #header h1, #header p, #header a, #footer p, #footer a {color:#fff;}
+        #header .split-pane {background:#3b6b9c;}
+        
+        #main-content {padding:2em 1em 3em 1em;}
+        
+        #footer {position:absolute; bottom:0; width:100%; height:3em; background:#1f242a;}
+        #footer h3 {text-align:center; background:#37414a; font-size:0.8em; font-weight:normal; color:#fff; padding:0.1em 0; margin:0;}
+        
+        #cta {
+        margin:5em 1em;
+        background-color:#ddd;
+        -moz-border-radius-topleft: 6em; -moz-border-radius-bottomright: 6em;
+        -webkit-border-radius-topleft: 6em; -webkit-border-radius-bottomright: 6em;
+        padding:5em;}
+ 		
+ 		/* end dump of styles.css */
+ 
+        /* start of XForms specific styling */		
+ 		.xforms-focus input, .xforms-focus textarea {background:#ffefd5;}
+ 		.xforms-focus {font-weight:bold;}
+		xf|label {
+			color:#000;
+			text-align:right;
+			margin-right:1em;
+      		display: block;
+        	width: 130px;
+       		float:left;
+       	}
+       	
+       	
+       	.long input {width:500px;}
+       	.long textarea {width:500px; height:150px;}
+       	
+       	/*
+ 		#main-content {width:90%; margin:auto;}*/
+ 		
+ 		#main-content p {width:80%; margin:0.8em auto;}
+ 		#main-content fieldset {margin-bottom:2.5em;}
+ 		#main-content fieldset legend {font-weight:bold; margin:0 0.5em;}
+ 		#main-content select {width:165px;}
+ 		
+ 		.store button {width:110px; margin:10px;}
+ 		.store xf|label {
+            color:#000;
+            text-align:center;
+            width: 100%;
+        }
+ 		  
+   	]]>
+	</style> 
+	
+    <xforms:model id="ticketCreator">
+    	<xforms:instance id="ticket-instance" src="instance.xml" />
+    		<!--http://localhost:8080/tix_web/formhere -->
+    		
+    	<xforms:submission id="create-ticket" method="put" replace="all" action="save.xqy" ref="instance('ticket-instance')">
+    		<xforms:toggle case="case-busy" ev:event="xforms-submit" />
+    		<xforms:toggle case="case-submit-done" ev:event="xforms-submit-done" />
+    		<xforms:toggle case="case-submit-error" ev:event="xforms-submit-error" />
+    	</xforms:submission>
+    
+        <!--
+    	<xforms:submission id="submit_tix" method="post" replace="all"
+    		action="http://xformstest.org/cgi-bin/showinstance.sh"
+    		ref="/TicketDocument">
+    		<xforms:message level="modeless" ev:event="xforms-submit-error">Submit error.</xforms:message>
+    	</xforms:submission> -->
+    
+    	<xforms:bind nodeset="/TicketDocument/Ticket/createdDate" type="xsd:dateTime" required="true()" />
+    	<xforms:bind nodeset="/TicketDocument/Ticket/dueDate" type="xsd:dateTime" required="true()" />
+    	
+    	<!--
+    	<xforms:bind nodeset="/TicketDocument/WorkflowEvents/WorkflowEvent/updatedDate" type="xsd:dateTime" required="true()" />
+    	<xforms:bind nodeset="/TicketDocument/WorkflowEvents/WorkflowEvent/workflowCommentText" type="xsd:string" required="true()" />
+    	<xforms:bind nodeset="/TicketDocument/WorkflowEvents/WorkflowEvent/workflowUserId" type="xsd:string" required="true()" />
+    	-->
+    
+        <!-- Code Tables for Select-1s -->
+    	<xforms:instance id="ticketType" src="code-tables/ticketType.xml"></xforms:instance>
+    	<xforms:instance id="ticketPriority" src="code-tables/ticketPriority.xml"></xforms:instance>
+    </xforms:model> 
+</head> 
+<body>
+    <div id="container">
+        <div id="header">
+            <h1>TiX : XML Bug Tracking System (v0.1)</h1>
+            <div class="split-pane">
+                <p>Ticket Creation</p>
+            </div>
+        </div>
+
+        <div id="main-content"> 
+            <fieldset> 
+            <legend>Ticket Data</legend> 
+                <p><xforms:input ref="/TicketDocument/Ticket/id" model="ticketCreator">
+                    <xforms:label>Id</xforms:label>
+                    <xforms:hint>Id is (string, REQUIRED)</xforms:hint>
+                </xforms:input></p> 
+                
+                <p><xforms:select1 model="ticketCreator" ref="/TicketDocument/Ticket/type">
+                	<xforms:label>Type</xforms:label>
+                	<xforms:itemset nodeset="instance('ticketType')/EnumeratedValues/Item">
+                		<xforms:label ref="Label"></xforms:label>
+                		<xforms:value ref="Value"></xforms:value>
+                	</xforms:itemset>
+                </xforms:select1></p> 
+    
+                <!-- 
+        	    <p>
+        	    <xforms:input ref="/TicketDocument/Ticket/type" model="ticketCreator">
+        	      <xforms:label>Type</xforms:label>
+        	      <xforms:hint>Type is (string, REQUIRED)</xforms:hint>
+        	    </xforms:input>
+        	    </p>
+        	     --> 
+                <p><xforms:input class="long" ref="/TicketDocument/Ticket/summary" model="ticketCreator">
+            	   <xforms:label>Summary</xforms:label>
+            	   <xforms:hint>A one-line summary of the issue (REQUIRED)</xforms:hint>
+                </xforms:input></p> 
+    
+                <p><xforms:textarea class="long" ref="/TicketDocument/Ticket/description" model="ticketCreator">
+                	<xforms:label>Description</xforms:label>
+                	<xforms:hint>A detailed description of the issue/feature outlining the steps to reproduce it (REQUIRED)</xforms:hint>
+                </xforms:textarea></p> 
+    
+                <p><xforms:input ref="/TicketDocument/Ticket/assigneeId" model="ticketCreator">
+                	<xforms:label>Assignee Id</xforms:label>
+                	<xforms:hint>Assignee Id is (string, REQUIRED)</xforms:hint>
+                </xforms:input></p> 
+    
+                <p><xforms:input ref="/TicketDocument/Ticket/reporterId" model="ticketCreator">
+                	<xforms:label>Reporter Id</xforms:label>
+                	<xforms:hint>Reporter Id is (string, REQUIRED)</xforms:hint>
+                </xforms:input></p> 
+    
+                <p><xforms:select1 model="ticketCreator" ref="/TicketDocument/Ticket/ticketPriority">
+                	<xforms:label>Priority</xforms:label>
+                	<xforms:itemset nodeset="instance('ticketPriority')/EnumeratedValues/Item">
+                		<xforms:label ref="Label"></xforms:label>
+                		<xforms:value ref="Value"></xforms:value>
+                	</xforms:itemset>
+                </xforms:select1></p> 
+    
+                <p><xforms:input ref="/TicketDocument/Ticket/createdDate" model="ticketCreator">
+                	<xforms:label>Created Date</xforms:label>
+                	<xforms:hint>Created Date is (dateTime, REQUIRED)</xforms:hint>
+                </xforms:input></p> 
+                
+                <p><xforms:input ref="/TicketDocument/Ticket/dueDate" model="ticketCreator">
+                	<xforms:label>Due Date</xforms:label>
+                	<xforms:hint>Due Date is (dateTime, REQUIRED)</xforms:hint>
+                </xforms:input></p>
+            
+            
+                <xforms:submit class="store" submission="create-ticket">
+                    <xforms:label>Create Ticket</xforms:label>
+                </xforms:submit> 
+            </fieldset>
+            
+            <xforms:switch>
+                <xforms:case id="ready" />
+                <xforms:case id="case-busy">
+                    <p>Waiting for results from server...</p>
+                </xforms:case>
+                <xforms:case id="case-submit-error">
+                    <p>Submit error</p>
+                </xforms:case>
+                <xforms:case id="case-submit-done">
+                    <p>Submit done</p>
+                </xforms:case>
+            </xforms:switch>
+
+<!--	
+<p> 
+	<xforms:trigger submission="submit_tix">
+	<xforms:label>Send it over!</xforms:label>
+	<xforms:action ev:event="DOMActivate">
+		<xforms:message level="modal" ev:event="DOMActivate">Hello from Button 1</xforms:message>
+		 <xforms:load show="replace">
+		         <xforms:resource value="concat(instance('search-params')/url, instance('search-params')/q)"/>
+		      </xforms:load> 
+	</xforms:action>
+	</xforms:trigger> 
+</p> -->
+        </div>
+        
+        <div id="footer">
+            <h3>&#x00A9; 2009 TiX | Privacy Policy | Support</h3>
+            <div class="split-pane">
+                <p>Ticket Creation</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
