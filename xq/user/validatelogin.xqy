@@ -4,7 +4,7 @@
 : @author Alex Bleasdale
 : @version 1.0
 :)
-import module namespace tix-common = "http://www.alexbleasdale.co.uk/tix-common" at "../modules/common_module.xqy";
+import module namespace tix-common = "http://www.alexbleasdale.co.uk/tix-common" at "/xq/modules/common_module.xqy";
 
 let $user := xdmp:get-request-field ("user", ""),
     $password := xdmp:get-request-field ("password", "")

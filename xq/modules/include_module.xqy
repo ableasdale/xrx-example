@@ -10,11 +10,32 @@ xquery version "1.0-ml";
 module namespace tix-include="http://www.alexbleasdale.co.uk/tix-include";
 import module "http://marklogic.com/xdmp/security" at "security.xqy";
 
+
+(:
+:: Summary:
+::
+::      Generates the common html <head> element, which is rendered on every page on the 
+::      application.
+::
+:: Parameters:
+::
+::      $pageName 
+::          The first portion of the html <title> element, used to identify the page and
+::          for SEO best practice.
+:: 
+:)
 declare function tix-include:getDocumentHead($pageName as xs:string){
-  let $head := <head xmlns="http://www.w3.org/1999/xhtml"><title>{$pageName} | TiX Bug Tracker v1.0</title><link rel="stylesheet" type="text/css" media="screen, projection" href="../../css/styles.css" /></head>
+  let $head := <head xmlns="http://www.w3.org/1999/xhtml"><title>{$pageName} | TiX Bug Tracker v0.1</title><link rel="stylesheet" type="text/css" media="screen, projection" href="../../css/styles.css" /></head>
   return $head  
 };
 
+(:
+:: Summary:
+::
+::      Returns the applications "Login" status as an html element (used on both the header
+::      and footer elements on the page.
+:: 
+:)
 declare function tix-include:getCurrentUserCredentials(){
   let $credentials-pane := 
   if (xdmp:get-current-user() = "nobody") then
@@ -32,14 +53,27 @@ declare function tix-include:getCurrentUserCredentials(){
  return $credentials-pane
 };
 
+(:
+:: Summary:
+::
+::      If a user with administrative privileges is logged in, this element will be rendered
+::      and allows an administrator to create uers, etc.
+:: 
+:)
 declare function tix-include:getAdminUserLink(){
     let $admin-panel := if (xdmp:get-current-user() = "admin") then
         <p class="cta-panel">Administrators: <a href="registration-form.xqy">create new user account</a></p>
     else 
-        <p class="cta-panel">Not got an account yet? <a href="mailto:administrator@example.com">Request one here</a></p>
+        <p class="cta-panel">Not got an account yet? <a href="mailto:administrator@example.com" title="this will compose an email to the System administrators for an account to be set up.">Request one here</a></p>
     return $admin-panel
 };
 
+(:
+:: Summary:
+::
+::      Returns the html login form used on both the login and logout pages.
+:: 
+:)
 declare function tix-include:getLoginForm(){
    let $login-form :=
    <div id="login-component">
@@ -63,6 +97,13 @@ declare function tix-include:getLoginForm(){
    return $login-form
 };
 
+(:
+:: Summary:
+::
+::      Returns the html <strong>header</strong> div, which is used on all 
+::      pages in the application
+:: 
+:)
 declare function tix-include:getHeader(){
     let $header := 
     <div id="header">
@@ -72,6 +113,13 @@ declare function tix-include:getHeader(){
     return $header
 };
 
+(:
+:: Summary:
+::
+::      Returns the html <strong>footer</strong> div, which is used on all 
+::      pages in the application
+:: 
+:)
 declare function tix-include:getFooter(){
     let $footer :=
     <div id="footer">
