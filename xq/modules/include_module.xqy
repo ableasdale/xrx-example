@@ -30,6 +30,7 @@ declare function tix-include:getDocumentHead($pageName as xs:string){
     <link rel="stylesheet" type="text/css" media="screen, projection" href="/css/styles.css" />
     <script type="text/javascript" src="/js/jquery-1.3.2.min.js"></script>
     <script type="text/javascript" src="/js/jquery.qtip-1.0.0-rc3.min.js"></script>
+    <script type="text/javascript" src="/js/jquery.highlight-3.yui.js"></script>
     <script type="text/javascript">
     /* <![CDATA[ */
     $(document).ready(function() {
@@ -241,20 +242,31 @@ declare function tix-include:generateDashboard($projectId as xs:string){
         <h2>Dashboard for {$projectId}</h2>
         <table border="1">
             <tr>
-                <th>Project Id</th>
+                <th>Project Uri</th>
+                <th>Type</th>
                 <th>Summary</th>
                 <th>Created Date</th>
+                <th>Priority</th>
+                <th>Reporter Id</th>
+                <th>View HTML</th>
+                <th>View XML</th>
             </tr>    
             {
             for $item in fn:collection("tixOpen")
             let $inner-node := 
             <tr>
-            <td>{$item/TicketDocument/Ticket/id/text()}</td>
+            <td>{xdmp:node-uri($item)}</td>
+            <td>{$item/TicketDocument/Ticket/type/text()}</td>
             <td>{$item/TicketDocument/Ticket/summary/text()}</td>
+            <td>{$item/TicketDocument/Ticket/description/text()}</td>
             <td>{xdmp:strftime("%a, %d %b %Y %H:%M:%S",$item/TicketDocument/Ticket/createdDate/text())}</td>
+            <td>{$item/TicketDocument/Ticket/ticketPriority/text()}</td>
+            <td>{$item/TicketDocument/Ticket/reporterId/text()}</td>
+            <td><a href="/detail/default.xqy?id={xdmp:node-uri($item)}">View HTML</a></td>
+            <td><a href="/detail/xml.xqy?id={xdmp:node-uri($item)}">View HTML</a></td>
             </tr>
             where ($item/TicketDocument/Ticket/id/text() = $projectId)
-            order by $item/TicketDocument/Ticket/createdDate ascending
+            order by $item/TicketDocument/Ticket/createdDate descending
             return $inner-node
             }
         </table>

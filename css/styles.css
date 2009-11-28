@@ -7,6 +7,7 @@ p.inputfield input:focus {background:#f5f5dc;}
 p.inputfield label {display:block; color:#37414a; font-weight:bold;}
 p.inputfield input {width:15em;}
 
+.highlight {background-color: yellow;}
 .split-pane {padding: 0 1em;}
 .clearboth {clear:both;}
 .left {float:left;}
