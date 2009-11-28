@@ -127,7 +127,32 @@ declare function tix-include:getTotalProjects() as xs:integer {
    return $projects
 };
 
+declare function tix-include:getTixExplorer(){
+    let $tix-explorer := 
+    <div id="project-explorer">
+        <form action="/" method="post">
+            {tix-include:getProjectsAsHtml()}
+            <input type="submit" />
+        </form>
+        <form action="/search.xqy" method="post">
+            <input type="text" name="searchterm" value="Please enter search term.."/>
+            <input type="submit" />
+        </form>
+    </div>
+    return $tix-explorer
+};
 
+declare function tix-include:getProjectsAsHtml(){
+let $project-html-list :=
+<select name="projectChooser">
+    {
+    for $item in fn:doc("tix-projects.xml")/CodeTable/EnumeratedValues/Item
+    let $inner-node := <option value="{$item/Value}">{$item/Label}</option>
+    return $inner-node
+    }
+</select>
+return $project-html-list
+};
 (:
 :: Summary:
 ::

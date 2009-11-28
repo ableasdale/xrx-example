@@ -17,8 +17,9 @@ import module namespace tix-include = "http://www.alexbleasdale.co.uk/tix-includ
     <div id="container">
     {tix-include:getHeader()}
     <div id="main-content">
+        {tix-include:getTixExplorer()}
         {tix-include:getAdminPanel()}
-        TODO: Dashboard Component(s)
+        TODO: Dashboard Component(s) for {xdmp:get-request-field("projectChooser")}
     </div>
     {tix-include:getFooter()}
     </div>
