@@ -1,69 +1,62 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
-	elementFormDefault="qualified" attributeFormDefault="unqualified"
-	finalDefault="" blockDefault="">
-
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified"
+	attributeFormDefault="unqualified" finalDefault="" blockDefault="">
 	<xs:element name="TicketDocument" abstract="false">
-
+		
 		<xs:annotation>
 			<xs:documentation>XML Schema for a TiX Bug ticket</xs:documentation>
 		</xs:annotation>
-		
+
 		<xs:complexType mixed="false">
 			<xs:sequence>
 				<xs:element name="Ticket">
-				
 					<xs:complexType mixed="false">
 						<xs:sequence>
-							<xs:element name="id" type="xs:string" minOccurs="0"/>
-							<!-- TODO - make an enum -->
-							<xs:element name="type" type="xs:string" minOccurs="1" maxOccurs="1" />
+							<xs:element name="id" type="xs:string" minOccurs="0" maxOccurs="1"/>
+							
+							<xs:element name="type" minOccurs="1" maxOccurs="1" nillable="false">
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:enumeration value="bug"/>
+										<xs:enumeration value="task"/>
+										<xs:enumeration value="new-feature"/>
+										<xs:enumeration value="improvement"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							
 							<xs:element name="summary" type="xs:string" minOccurs="1" maxOccurs="1"/>
-							<xs:element name="description" type="xs:string" minOccurs="1" maxOccurs="1" />
-							<xs:element name="assigneeId" type="xs:string" />
-							<xs:element name="reporterId" type="xs:string" />
+							<xs:element name="description" type="xs:string" minOccurs="1" maxOccurs="1"/>
+							<xs:element name="assigneeId" type="xs:string"/>
+							<xs:element name="reporterId" type="xs:string"/>
 
-							<xs:element name="ticketPriority" minOccurs="0"
-								maxOccurs="1" nillable="false">
+							<xs:element name="ticketPriority" minOccurs="0" maxOccurs="1"
+								nillable="false">
 								<xs:simpleType>
 									<xs:restriction base="xs:string">
-										<xs:enumeration value="Critical" />
-										<xs:enumeration value="High" />
-										<xs:enumeration value="Medium" />
-										<xs:enumeration value="Low" />
+										<xs:enumeration value="critical"/>
+										<xs:enumeration value="high"/>
+										<xs:enumeration value="medium"/>
+										<xs:enumeration value="low"/>
 									</xs:restriction>
 								</xs:simpleType>
 							</xs:element>
 
-							<xs:element name="ticketStatus" minOccurs="0"
-								maxOccurs="1" nillable="false">
+							<xs:element name="ticketStatus" minOccurs="1" maxOccurs="1"
+								nillable="false">
 								<xs:simpleType>
 									<xs:restriction base="xs:string">
-										<xs:enumeration value="Open" />
-										<xs:enumeration value="Reopened" />
-										<xs:enumeration value="Closed" />
-										<xs:enumeration value="Fixed" />
-										<xs:enumeration value="WillNotFix" />
+										<xs:enumeration value="open"/>
+										<xs:enumeration value="reopened"/>
+										<xs:enumeration value="closed"/>
+										<xs:enumeration value="fixed"/>
+										<xs:enumeration value="will-not-fix"/>
 									</xs:restriction>
 								</xs:simpleType>
 							</xs:element>
 
-
-							<xs:element name="TicketResolution" minOccurs="0"
-								maxOccurs="1" nillable="false">
-								<xs:simpleType>
-									<xs:restriction base="xs:string">
-										<xs:enumeration value="Open" />
-										<xs:enumeration value="Closed" />
-										<xs:enumeration value="Fixed" />
-										<xs:enumeration value="WillNotFix" />
-									</xs:restriction>
-								</xs:simpleType>
-							</xs:element>
-
-							<xs:element name="createdDate" type="xs:dateTime" />
-							<xs:element name="dueDate" type="xs:dateTime" />
+							<xs:element name="createdDate" type="xs:dateTime"/>
+							<xs:element name="dueDate" type="xs:dateTime"/>
 
 						</xs:sequence>
 					</xs:complexType>
@@ -71,8 +64,7 @@
 
 				<xs:element name="WorkflowEvents" minOccurs="0" maxOccurs="unbounded">
 					<xs:annotation>
-						<xs:documentation>A collection of workflow events.
-						</xs:documentation>
+						<xs:documentation>A collection of workflow events. </xs:documentation>
 					</xs:annotation>
 
 					<xs:complexType>
@@ -83,24 +75,23 @@
 										<xs:documentation>A single workflow event</xs:documentation>
 									</xs:annotation>
 									<xs:sequence>
-										<xs:element name="updatedDate" type="xs:dateTime" />
-										<xs:element name="workflowCommentText" type="xs:string" />
+										<xs:element name="updatedDate" type="xs:dateTime"/>
+										<xs:element name="workflowCommentText" type="xs:string"/>
 										<xs:element name="ticketStatus">
 											<xs:simpleType>
 												<xs:restriction base="xs:string">
-													<xs:enumeration value="Open" />
-													<xs:enumeration value="Closed" />
-													<xs:enumeration value="Reopened" />
-													<xs:enumeration value="Fixed" />
-													<xs:enumeration value="WillNotFix" />
+												<xs:enumeration value="Open"/>
+												<xs:enumeration value="Closed"/>
+												<xs:enumeration value="Reopened"/>
+												<xs:enumeration value="Fixed"/>
+												<xs:enumeration value="WillNotFix"/>
 												</xs:restriction>
 											</xs:simpleType>
 										</xs:element>
-										<xs:element name="workflowUserId" type="xs:string" />
+										<xs:element name="workflowUserId" type="xs:string"/>
 									</xs:sequence>
 								</xs:complexType>
 							</xs:element>
-
 
 						</xs:sequence>
 					</xs:complexType>

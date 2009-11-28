@@ -14,7 +14,7 @@ declare function local:getRequestBodyElement() {
     let $element := xdmp:get-request-body()/node()
     return $element
 };
-
+(: fn:current-dateTime   :)
 xdmp:document-insert(
          tix-common:createFileName("DEF", "empty3"), 
          <TicketDocument>

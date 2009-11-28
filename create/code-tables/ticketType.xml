@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CodeTable>
-<DataElementName>ticketType</DataElementName>
-<EnumeratedValues>
-<Item>
-<Label>Bug</Label>
-<Value>bug</Value>
-</Item>
-<Item>
-<Label>Improvement</Label>
-<Value>improvement</Value>
-</Item>
-<Item>
-<Label>New Feature</Label>
-<Value>new-feature</Value>
-</Item>
-<Item>
-<Label>Task</Label>
-<Value>task</Value>
-</Item>
-</EnumeratedValues>
+    <DataElementName>ticketType</DataElementName>
+    <EnumeratedValues>
+        <Item>
+            <Label>Bug</Label>
+            <Value>bug</Value>
+        </Item>
+        <Item>
+            <Label>Improvement</Label>
+            <Value>improvement</Value>
+        </Item>
+        <Item>
+            <Label>New Feature</Label>
+            <Value>new-feature</Value>
+        </Item>
+        <Item>
+            <Label>Task</Label>
+            <Value>task</Value>
+        </Item>
+    </EnumeratedValues>
 </CodeTable>

@@ -84,6 +84,7 @@ declare function tix-common:registerUser (
     $desc as xs:string,
     $password as xs:string) as xs:boolean
 {
+ 
     if (xdmp:eval-in(fn:concat('import module "http://marklogic.com/xdmp/security" at "/xq/modules/security.xqy"; sec:create-user("',$user,'","',$desc,'","',$password,'", "app-user",(),())'),xdmp:security-database())) then
        fn:true()
     else
@@ -112,6 +113,45 @@ declare function tix-common:validateLogin ($user as xs:string, $password as xs:s
         fn:true()
     else
         fn:false()
+};
+
+
+(: TODO - remove later?
+declare function tix-common:checkForUserDocument()
+{
+   if (not(doc("tix-users.xml"))) then   
+        tix-common:createUserDocument()
+    else ()
+};
+:)
+
+(:
+:: Summary:
+::      Creates the User document (n.b. Developer should test as to whether the doc exists first)
+::
+::      See: /xq/users/list.xq for this checking
+:)
+
+declare function tix-common:createInitDocuments(){
+    xdmp:document-insert(
+             "tix-users.xml", 
+             <CodeTable><DataElementName>registeredUsers</DataElementName><EnumeratedValues /></CodeTable>,
+             xdmp:default-permissions(),
+             "tix-admin"),
+    xdmp:document-insert(
+             "tix-projects.xml", 
+             <CodeTable><DataElementName>registeredProjects</DataElementName><EnumeratedValues /></CodeTable>,
+             xdmp:default-permissions(),
+             "tix-admin")
+};
+
+(:
+:: Updates node in user doc
+:)
+declare function tix-common:updateUserDoc($user as xs:string, $desc as xs:string){
+    xdmp:node-insert-child(fn:doc(
+            "tix-users.xml")/CodeTable/EnumeratedValues,
+            <Item><Label>{$desc}</Label><Value>{$user}</Value></Item>)
 };
 
 (:

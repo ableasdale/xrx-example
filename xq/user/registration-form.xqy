@@ -26,8 +26,13 @@ xdmp:set-response-content-type("text/html; charset=utf-8"),
             
             <form action="/xq/user/register.xqy" method="post"> 
                 <p class="inputfield">
-                    <label for="username">User name: </label>
+                    <label for="username">User (login) name: </label>
                     <input id="username" type="text" name="user" />
+                </p>
+                
+                <p class="inputfield">
+                    <label for="description">Full name: </label>
+                    <input type="description" name="desc" />
                 </p>
     
                 <p class="inputfield">
@@ -38,11 +43,6 @@ xdmp:set-response-content-type("text/html; charset=utf-8"),
                 <p class="inputfield">
                     <label for="password">Confirm Password: </label>
                     <input type="password" name="password2" />
-                </p>
-                
-                <p class="inputfield">
-                    <label for="description">Description: </label>
-                    <input type="description" name="desc" />
                 </p>
     
                 <p>

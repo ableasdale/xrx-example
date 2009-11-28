@@ -59,12 +59,53 @@ declare function tix-include:getCurrentUserCredentials(){
 :: 
 :)
 declare function tix-include:getAdminUserLink(){
-    let $admin-panel := if (xdmp:get-current-user() = "admin") then
+    let $admin-link := if (xdmp:get-current-user() = "admin") then
         <p class="cta-panel">Administrators: <a href="registration-form.xqy">create new user account</a></p>
     else 
         <p class="cta-panel">Not got an account yet? <a href="mailto:administrator@example.com" title="this will compose an email to the System administrators for an account to be set up.">Request one here</a></p>
+    return $admin-link
+};
+
+(:
+:: Summary:
+::
+::      If the administrator is logged in, extra options appear on the index page
+:: 
+:)
+declare function tix-include:getAdminPanel(){
+    let $admin-panel := if (xdmp:get-current-user() = "admin") then
+        <p class="cta-panel">
+            There are currently <strong>{tix-include:getTotalUsers()}</strong> users and <strong>{tix-include:getTotalProjects()}</strong> projects<br />
+            <a href="/xq/user/registration-form.xqy">create new user account</a><br />
+            <a href="/xq/project/registration-form.xqy">create new project</a><br />
+        </p>
+    else
+        <p class="cta-panel">TODO - normal user panel</p>
     return $admin-panel
 };
+
+(:
+:: Summary:
+::
+::      Returns a count of all registered users
+:: 
+:)
+declare function tix-include:getTotalUsers(){
+   let $users := fn:count(fn:doc("tix-users.xml")/CodeTable/EnumeratedValues/Item)
+   return $users
+};
+
+(:
+:: Summary:
+::
+::      Returns a count of all registered users
+:: 
+:)
+declare function tix-include:getTotalProjects(){
+   let $projects := fn:count(fn:doc("tix-projects.xml")/CodeTable/EnumeratedValues/Item)
+   return $projects
+};
+
 
 (:
 :: Summary:

@@ -24,8 +24,7 @@ let $user := xdmp:get-request-field("user", ""),
     $password := xdmp:get-request-field("password", ""),
     $password2 := xdmp:get-request-field("password2", ""),
     $desc := xdmp:get-request-field("desc", "")
-
-
+    
 return
 if (($password != $password2) or ($password = "")) then
     <html xmlns="http://www.w3.org/1999/xhtml">
@@ -42,6 +41,8 @@ if (($password != $password2) or ($password = "")) then
     </html>
 	
 else if (tix-common:registerUser($user,$desc,$password)) then
+    let $updateUserDoc := tix-common:updateUserDoc($user, $desc)
+    return
     <html xmlns="http://www.w3.org/1999/xhtml">
       <body>
         <h2>Congratulations! You are successfully registered with the site</h2>

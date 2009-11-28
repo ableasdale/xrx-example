@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CodeTable>
-<DataElementName>ticketType</DataElementName>
-<EnumeratedValues>
-<Item>
-<Label>Critical</Label>
-<Value>critical</Value>
-</Item>
-<Item>
-<Label>High</Label>
-<Value>high</Value>
-</Item>
-<Item>
-<Label>Medium</Label>
-<Value>medium</Value>
-</Item>
-<Item>
-<Label>Low</Label>
-<Value>low</Value>
-</Item>
-</EnumeratedValues>
+    <DataElementName>ticketPriority</DataElementName>
+    <EnumeratedValues>
+        <Item>
+            <Label>Critical</Label>
+            <Value>critical</Value>
+        </Item>
+        <Item>
+            <Label>High</Label>
+            <Value>high</Value>
+        </Item>
+        <Item>
+            <Label>Medium</Label>
+            <Value>medium</Value>
+        </Item>
+        <Item>
+            <Label>Low</Label>
+            <Value>low</Value>
+        </Item>
+    </EnumeratedValues>
 </CodeTable>

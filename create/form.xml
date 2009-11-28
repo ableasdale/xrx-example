@@ -1,5 +1,4 @@
 <?xml-stylesheet href="/xsltforms/xsltforms.xsl" type="text/xsl"?>
-<?xsltforms-options debug="yes"?>
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ev="http://www.w3.org/2001/xml-events"
 	xmlns:xforms="http://www.w3.org/2002/xforms"
@@ -69,13 +68,9 @@
         	width: 130px;
        		float:left;
        	}
-       	
-       	
+
        	.long input {width:500px;}
        	.long textarea {width:500px; height:150px;}
-       	
-       	/*
- 		#main-content {width:90%; margin:auto;}*/
  		
  		#main-content p {width:80%; margin:0.8em auto;}
  		#main-content fieldset {margin-bottom:2.5em;}
@@ -87,40 +82,32 @@
             color:#000;
             text-align:center;
             width: 100%;
-        }
- 		  
+        }  
    	]]>
 	</style> 
-	
     <xforms:model id="ticketCreator">
+        <!-- Instance data -->
     	<xforms:instance id="ticket-instance" src="instance.xml" />
-    		<!--http://localhost:8080/tix_web/formhere -->
-    		
+        <!-- Code Tables for Select-1s -->
+        <xforms:instance id="ticketType" src="code-tables/ticketType.xml"></xforms:instance>
+        <xforms:instance id="ticketPriority" src="code-tables/ticketPriority.xml"></xforms:instance>
+        <!-- TODO - this isn't so good - should be a relative path -->
+        <xforms:instance id="registeredUsers" src="http://localhost:8005/xq/user/list.xqy"></xforms:instance>
+        <!-- Submission -->
     	<xforms:submission id="create-ticket" method="put" replace="all" action="save.xqy" ref="instance('ticket-instance')">
     		<xforms:toggle case="case-busy" ev:event="xforms-submit" />
     		<xforms:toggle case="case-submit-done" ev:event="xforms-submit-done" />
     		<xforms:toggle case="case-submit-error" ev:event="xforms-submit-error" />
     	</xforms:submission>
-    
-        <!--
-    	<xforms:submission id="submit_tix" method="post" replace="all"
-    		action="http://xformstest.org/cgi-bin/showinstance.sh"
-    		ref="/TicketDocument">
-    		<xforms:message level="modeless" ev:event="xforms-submit-error">Submit error.</xforms:message>
-    	</xforms:submission> -->
-    
-    	<xforms:bind nodeset="/TicketDocument/Ticket/createdDate" type="xsd:dateTime" required="true()" />
+        <!-- XForm bindings -->
     	<xforms:bind nodeset="/TicketDocument/Ticket/dueDate" type="xsd:dateTime" required="true()" />
     	
-    	<!--
+    	<!--  These fields are not used for creating tickets
+    	<xforms:bind nodeset="/TicketDocument/Ticket/createdDate" type="xsd:dateTime" required="true()" />
     	<xforms:bind nodeset="/TicketDocument/WorkflowEvents/WorkflowEvent/updatedDate" type="xsd:dateTime" required="true()" />
     	<xforms:bind nodeset="/TicketDocument/WorkflowEvents/WorkflowEvent/workflowCommentText" type="xsd:string" required="true()" />
     	<xforms:bind nodeset="/TicketDocument/WorkflowEvents/WorkflowEvent/workflowUserId" type="xsd:string" required="true()" />
     	-->
-    
-        <!-- Code Tables for Select-1s -->
-    	<xforms:instance id="ticketType" src="code-tables/ticketType.xml"></xforms:instance>
-    	<xforms:instance id="ticketPriority" src="code-tables/ticketPriority.xml"></xforms:instance>
     </xforms:model> 
 </head> 
 <body>
@@ -135,10 +122,11 @@
         <div id="main-content"> 
             <fieldset> 
             <legend>Ticket Data</legend> 
-                <p><xforms:input ref="/TicketDocument/Ticket/id" model="ticketCreator">
+                <!-- The ticket id is assigned on save.  It is not entered
+                    <p><xforms:input ref="/TicketDocument/Ticket/id" model="ticketCreator">
                     <xforms:label>Id</xforms:label>
                     <xforms:hint>Id is (string, REQUIRED)</xforms:hint>
-                </xforms:input></p> 
+                </xforms:input></p> -->
                 
                 <p><xforms:select1 model="ticketCreator" ref="/TicketDocument/Ticket/type">
                 	<xforms:label>Type</xforms:label>
@@ -146,16 +134,9 @@
                 		<xforms:label ref="Label"></xforms:label>
                 		<xforms:value ref="Value"></xforms:value>
                 	</xforms:itemset>
+                    <xforms:hint>The type of issue that is being created (e.g. Bug, Task, New Feature, Improvement)</xforms:hint>
                 </xforms:select1></p> 
-    
-                <!-- 
-        	    <p>
-        	    <xforms:input ref="/TicketDocument/Ticket/type" model="ticketCreator">
-        	      <xforms:label>Type</xforms:label>
-        	      <xforms:hint>Type is (string, REQUIRED)</xforms:hint>
-        	    </xforms:input>
-        	    </p>
-        	     --> 
+        	     
                 <p><xforms:input class="long" ref="/TicketDocument/Ticket/summary" model="ticketCreator">
             	   <xforms:label>Summary</xforms:label>
             	   <xforms:hint>A one-line summary of the issue (REQUIRED)</xforms:hint>
@@ -166,15 +147,14 @@
                 	<xforms:hint>A detailed description of the issue/feature outlining the steps to reproduce it (REQUIRED)</xforms:hint>
                 </xforms:textarea></p> 
     
-                <p><xforms:input ref="/TicketDocument/Ticket/assigneeId" model="ticketCreator">
-                	<xforms:label>Assignee Id</xforms:label>
-                	<xforms:hint>Assignee Id is (string, REQUIRED)</xforms:hint>
-                </xforms:input></p> 
-    
-                <p><xforms:input ref="/TicketDocument/Ticket/reporterId" model="ticketCreator">
-                	<xforms:label>Reporter Id</xforms:label>
-                	<xforms:hint>Reporter Id is (string, REQUIRED)</xforms:hint>
-                </xforms:input></p> 
+                <p><xforms:select1 model="ticketCreator" ref="/TicketDocument/Ticket/assigneeId">
+                    <xforms:label>Assignee</xforms:label>
+                    <xforms:itemset nodeset="instance('registeredUsers')/EnumeratedValues/Item">
+                        <xforms:label ref="Label"></xforms:label>
+                        <xforms:value ref="Value"></xforms:value>
+                    </xforms:itemset>
+                    <xforms:hint>Please choose a user to assign this task to</xforms:hint>
+                </xforms:select1></p> 
     
                 <p><xforms:select1 model="ticketCreator" ref="/TicketDocument/Ticket/ticketPriority">
                 	<xforms:label>Priority</xforms:label>
@@ -183,22 +163,16 @@
                 		<xforms:value ref="Value"></xforms:value>
                 	</xforms:itemset>
                 </xforms:select1></p> 
-    
-                <p><xforms:input ref="/TicketDocument/Ticket/createdDate" model="ticketCreator">
-                	<xforms:label>Created Date</xforms:label>
-                	<xforms:hint>Created Date is (dateTime, REQUIRED)</xforms:hint>
-                </xforms:input></p> 
                 
                 <p><xforms:input ref="/TicketDocument/Ticket/dueDate" model="ticketCreator">
                 	<xforms:label>Due Date</xforms:label>
                 	<xforms:hint>Due Date is (dateTime, REQUIRED)</xforms:hint>
                 </xforms:input></p>
             
-            
                 <xforms:submit class="store" submission="create-ticket">
                     <xforms:label>Create Ticket</xforms:label>
                 </xforms:submit> 
-            </fieldset>
+            </fieldset>    
             
             <xforms:switch>
                 <xforms:case id="ready" />
@@ -212,21 +186,8 @@
                     <p>Submit done</p>
                 </xforms:case>
             </xforms:switch>
-
-<!--	
-<p> 
-	<xforms:trigger submission="submit_tix">
-	<xforms:label>Send it over!</xforms:label>
-	<xforms:action ev:event="DOMActivate">
-		<xforms:message level="modal" ev:event="DOMActivate">Hello from Button 1</xforms:message>
-		 <xforms:load show="replace">
-		         <xforms:resource value="concat(instance('search-params')/url, instance('search-params')/q)"/>
-		      </xforms:load> 
-	</xforms:action>
-	</xforms:trigger> 
-</p> -->
+            
         </div>
-        
         <div id="footer">
             <h3>&#x00A9; 2009 TiX | Privacy Policy | Support</h3>
             <div class="split-pane">
