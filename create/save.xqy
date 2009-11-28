@@ -67,9 +67,9 @@ xdmp:set-response-content-type("text/html; charset=utf-8"),
                         <dt>Due Date:</dt>
                         <dd>{local:getRequestBodyElement()/Ticket[1]/dueDate[1]/text()}</dd>
                     </dl>
-                    
-                    <p>DEBUG: <a href="/list/default.xqy?colname=tixOpen">LIST</a></p>
-                    <p>DEBUG: <a href="/detail/default.xqy?id={local:getXmlDocumentName()}">View Doc</a></p>
+                    <p><a title="List all currently open tickets" href="/list/default.xqy?colname=tixOpen">List All Open Tickets</a></p>
+                    <p><a title="View HTML Representation of the Ticket"  href="/detail/default.xqy?id={local:getXmlDocumentName()}">View Document (XHTML)</a></p>
+                    <p><a title="View XML Representation of the Ticket" href="/detail/xml.xqy?id={local:getXmlDocumentName()}">View Document (XML)</a></p>
                 </div>
             </div>
             {tix-include:getFooter()}

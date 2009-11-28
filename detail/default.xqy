@@ -44,6 +44,7 @@ xdmp:set-response-content-type("text/html; charset=utf-8"),
             <dt>Due Date:</dt>
             <dd>{local:getDoc()/TicketDocument/Ticket[1]/dueDate[1]/text()}</dd>
         </dl>
+        <p><a title="View XML Representation of the Ticket" href="/detail/xml.xqy?id={xdmp:get-request-field("id")}">View Document (XML)</a></p>
     </div>
     {tix-include:getFooter()}
     </div>
