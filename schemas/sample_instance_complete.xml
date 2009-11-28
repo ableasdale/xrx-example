@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TicketDocument xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="ticket.xsd">
+  <Ticket>
+    <id>0</id>
+    <type>bug</type>
+    <summary>summary</summary>
+    <description>description</description>
+    <assigneeId>assigneeId</assigneeId>
+    <reporterId>reporterId</reporterId>
+    <ticketPriority>critical</ticketPriority>
+    <ticketStatus>open</ticketStatus>
+    <createdDate>2001-12-31T12:00:00</createdDate>
+    <dueDate>2001-12-31T12:00:00</dueDate>
+  </Ticket>
+  <WorkflowEvents>
+    <WorkflowEvent>
+      <updatedDate>2001-12-31T12:00:00</updatedDate>
+      <workflowCommentText>workflowCommentText</workflowCommentText>
+      <ticketStatus>Open</ticketStatus>
+      <workflowUserId>workflowUserId</workflowUserId>
+    </WorkflowEvent>
+    <WorkflowEvent>
+      <updatedDate>2001-12-31T12:00:00</updatedDate>
+      <workflowCommentText>workflowCommentText</workflowCommentText>
+      <ticketStatus>Open</ticketStatus>
+      <workflowUserId>workflowUserId</workflowUserId>
+    </WorkflowEvent>
+  </WorkflowEvents>
+</TicketDocument>
