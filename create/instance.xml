@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <TicketDocument>
   <Ticket>
-    <id>0</id>
+    <id/>
     <type>bug</type>
     <summary/>
     <description/>
-    <assigneeId>assigneeId</assigneeId>
+    <assigneeId/>
     <reporterId>reporterId</reporterId>
     <ticketPriority>critical</ticketPriority>
     <ticketStatus>open</ticketStatus>

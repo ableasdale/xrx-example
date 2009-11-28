@@ -40,7 +40,7 @@ declare function tix-common:getDocCount($collection as xs:string){
 ::      $collection 
 ::            The name of the collection  
 :)
-declare function tix-common:createFileName($projectId as xs:string, $collection as xs:string){
+declare function tix-common:createFileName($projectId as xs:string, $collection as xs:string) as xs:string {
     let $filename := fn:concat($projectId, "-", (1 + tix-common:getDocCount($collection)), ".xml")
     return $filename
 };
@@ -135,12 +135,12 @@ declare function tix-common:checkForUserDocument()
 declare function tix-common:createInitDocuments(){
     xdmp:document-insert(
              "tix-users.xml", 
-             <CodeTable><DataElementName>registeredUsers</DataElementName><EnumeratedValues /></CodeTable>,
+             <CodeTable><DataElementName>registeredUsers</DataElementName><EnumeratedValues><Item><Label>(Please Choose)</Label><Value/></Item></EnumeratedValues></CodeTable>,
              xdmp:default-permissions(),
              "tix-admin"),
     xdmp:document-insert(
              "tix-projects.xml", 
-             <CodeTable><DataElementName>registeredProjects</DataElementName><EnumeratedValues /></CodeTable>,
+             <CodeTable><DataElementName>registeredProjects</DataElementName><EnumeratedValues><Item><Label>(Please Choose)</Label><Value/></Item></EnumeratedValues></CodeTable>,
              xdmp:default-permissions(),
              "tix-admin")
 };
@@ -168,7 +168,7 @@ declare function tix-common:updateProjectDoc($name as xs:string, $desc as xs:str
 :: TODO - talk to someone at ML about how the XSLTForms PI can be injected into an xqy file. 
 :: This currently DOES NOT WORK -- at least; not for me.
 :)
-declare function tix-common:generateXsltFormsPi(){
+declare function tix-common:generateXsltFormsPi() as xs:string {
     let $pi := "<?xml-stylesheet href='xsltforms/xsltforms.xsl' type='text/xsl'?>"
     return (xdmp:unquote($pi))
 };

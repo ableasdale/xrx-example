@@ -8,9 +8,13 @@ import module namespace tix-include = "http://www.alexbleasdale.co.uk/tix-includ
         xdmp:redirect-response ("xq/user/login.xqy")
     else :)
 
-let $crvXML := doc(xdmp:get-request-field("id"))
-return
-<html xmlns="http://www.w3.org/1999/xhtml">
+declare function local:getDoc() {
+    let $doc := doc(xdmp:get-request-field("id"))
+    return $doc
+};
+
+xdmp:set-response-content-type("text/html; charset=utf-8"),
+<html>
     {tix-include:getDocumentHead("Ticket Detail for ")}
     <body>
     <div id="container">
@@ -19,25 +23,27 @@ return
     
     <h2>we got this:</h2>
         <dl>
+            <dt>Document Stored as:</dt>
+            <dd>{xdmp:get-request-field("id")}</dd>
+            <dt>Project / Component Id:</dt>
+            <dd>{local:getDoc()/TicketDocument/Ticket[1]/id[1]/text()}</dd>
             <dt>Ticket type:</dt>
-         
-            <dd>{$crvXML/TicketDocument/Ticket[1]/type[1]/text()}</dd>
+            <dd>{local:getDoc()/TicketDocument/Ticket[1]/type[1]/text()}</dd>
             <dt>Ticket summary:</dt>
-            <dd>{$crvXML/TicketDocument/Ticket[1]/summary[1]/text()}</dd>
+            <dd>{local:getDoc()/TicketDocument/Ticket[1]/summary[1]/text()}</dd>
             <dt>Ticket description:</dt>
-            <dd>{$crvXML/TicketDocument/Ticket[1]/detail[1]/text()}</dd>
+            <dd>{local:getDoc()/TicketDocument/Ticket[1]/description[1]/text()}</dd>
+            <dt>Assignee Id:</dt>
+            <dd>{local:getDoc()/TicketDocument/Ticket[1]/assigneeId[1]/text()}</dd>
+            <dt>Reporter Id:</dt>
+            <dd>{local:getDoc()/TicketDocument/Ticket[1]/reporterId[1]/text()}</dd>
+            <dt>Ticket Priority:</dt>
+            <dd>{local:getDoc()/TicketDocument/Ticket[1]/ticketPriority[1]/text()}</dd>
+            <dt>Ticket Created:</dt>
+            <dd>{local:getDoc()/TicketDocument/Ticket[1]/createdDate[1]/text()}</dd>
+            <dt>Due Date:</dt>
+            <dd>{local:getDoc()/TicketDocument/Ticket[1]/dueDate[1]/text()}</dd>
         </dl>
-        <!--
-        
-        
-        <summary>example summary</summary>
-    <description>example description</description>
-    <assigneeId>assigneeId</assigneeId>
-    <reporterId>reporterId</reporterId>
-    <ticketPriority>Medium</ticketPriority>
-    <createdDate>2001-12-31T12:00:00</createdDate>
-    <dueDate>2001-12-31T12:00:00</dueDate>
-        -->
     </div>
     {tix-include:getFooter()}
     </div>

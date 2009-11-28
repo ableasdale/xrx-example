@@ -101,9 +101,10 @@
     	</xforms:submission>
         <!-- XForm bindings -->
     	<xforms:bind nodeset="/TicketDocument/Ticket/dueDate" type="xsd:dateTime" />
+        <xforms:bind nodeset="/TicketDocument/Ticket/id" type="xsd:string" required="true()" />
         <xforms:bind nodeset="/TicketDocument/Ticket/summary" type="xsd:string" required="true()" />
         <xforms:bind nodeset="/TicketDocument/Ticket/description" type="xsd:string" required="true()" />
-    	
+        <xforms:bind nodeset="/TicketDocument/Ticket/assigneeId" type="xsd:string" required="true()" />
     	
     	<!--  These fields are not used for creating tickets
     	<xforms:bind nodeset="/TicketDocument/Ticket/createdDate" type="xsd:dateTime" required="true()" />
@@ -125,11 +126,6 @@
         <div id="main-content"> 
             <fieldset> 
             <legend>Ticket Data</legend> 
-                <!-- The ticket id is assigned on save.  It is not entered
-                    <p><xforms:input ref="/TicketDocument/Ticket/id" model="ticketCreator">
-                    <xforms:label>Id</xforms:label>
-                    <xforms:hint>Id is (string, REQUIRED)</xforms:hint>
-                </xforms:input></p> -->
                 
                 <p><xforms:select1 model="ticketCreator" ref="/TicketDocument/Ticket/id">
                     <xforms:label>Project Id</xforms:label>
@@ -187,7 +183,9 @@
             </fieldset>    
             
             <xforms:switch>
-                <xforms:case id="ready" />
+                <xforms:case id="ready">
+                    <xforms:message level="modal">Ready!</xforms:message>
+                </xforms:case>
                 <xforms:case id="case-busy">
                     <p>Waiting for results from server...</p>
                 </xforms:case>

@@ -111,8 +111,8 @@ declare function tix-include:getAdminPanel(){
 ::      Returns a count of all registered users
 :: 
 :)
-declare function tix-include:getTotalUsers(){
-   let $users := fn:count(fn:doc("tix-users.xml")/CodeTable/EnumeratedValues/Item)
+declare function tix-include:getTotalUsers() as xs:integer {
+   let $users := (fn:count(fn:doc("tix-users.xml")/CodeTable/EnumeratedValues/Item) - 1)
    return $users
 };
 
@@ -122,8 +122,8 @@ declare function tix-include:getTotalUsers(){
 ::      Returns a count of all registered users
 :: 
 :)
-declare function tix-include:getTotalProjects(){
-   let $projects := fn:count(fn:doc("tix-projects.xml")/CodeTable/EnumeratedValues/Item)
+declare function tix-include:getTotalProjects() as xs:integer {
+   let $projects := (fn:count(fn:doc("tix-projects.xml")/CodeTable/EnumeratedValues/Item) - 1)
    return $projects
 };
 
