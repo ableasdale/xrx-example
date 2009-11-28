@@ -63,7 +63,7 @@ declare function tix-include:getCurrentUserCredentials(){
  else
     <div class="split-pane">
         <p class="left">Currently Logged in as: <span class="user">{xdmp:get-current-user()}</span></p>
-        <p class="right"><a href="/" title="This will take you to your dashboard">Home</a> | <a href="/xq/user/logout.xqy" title="This will end your TiX session">Logout</a></p>
+        <p class="right"><a href="/" title="This will take you to your dashboard">Home</a> | <a href="/create/form.xml" title="Create a new Ticket">New Ticket</a> | <a href="/xq/user/logout.xqy" title="This will end your TiX session">Logout</a></p>
         <br class="clearboth" />
     </div>
  
@@ -223,4 +223,41 @@ declare function tix-include:checkForWarnings(){
     else
     <p class="cta-info">Welcome! Please log in using the form below</p>
     return $status
+};
+
+(: todo - doesn't look like method overriding works! - this can probably be deleted:)
+declare function tix-include:generateDashboard(){
+ let $response :=
+    <div id="dashboard">
+        <h2>Dashboard - default</h2>
+    </div>
+    return $response
+};
+
+
+declare function tix-include:generateDashboard($projectId as xs:string){
+    let $response :=
+    <div id="dashboard">
+        <h2>Dashboard for {$projectId}</h2>
+        <table border="1">
+            <tr>
+                <th>Project Id</th>
+                <th>Summary</th>
+                <th>Created Date</th>
+            </tr>    
+            {
+            for $item in fn:collection("tixOpen")
+            let $inner-node := 
+            <tr>
+            <td>{$item/TicketDocument/Ticket/id/text()}</td>
+            <td>{$item/TicketDocument/Ticket/summary/text()}</td>
+            <td>{xdmp:strftime("%a, %d %b %Y %H:%M:%S",$item/TicketDocument/Ticket/createdDate/text())}</td>
+            </tr>
+            where ($item/TicketDocument/Ticket/id/text() = $projectId)
+            order by $item/TicketDocument/Ticket/createdDate ascending
+            return $inner-node
+            }
+        </table>
+    </div>
+    return $response
 };
