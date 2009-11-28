@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <TicketDocument xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="ticket.xsd">
   <Ticket>
-    <id>0</id>
+    <id>id</id>
     <type>bug</type>
     <summary>summary</summary>
     <description>description</description>
@@ -16,13 +16,6 @@
     <WorkflowEvent>
       <updatedDate>2001-12-31T12:00:00</updatedDate>
       <workflowCommentText>workflowCommentText</workflowCommentText>
-      <ticketStatus>Open</ticketStatus>
-      <workflowUserId>workflowUserId</workflowUserId>
-    </WorkflowEvent>
-    <WorkflowEvent>
-      <updatedDate>2001-12-31T12:00:00</updatedDate>
-      <workflowCommentText>workflowCommentText</workflowCommentText>
-      <ticketStatus>Open</ticketStatus>
       <workflowUserId>workflowUserId</workflowUserId>
     </WorkflowEvent>
   </WorkflowEvents>

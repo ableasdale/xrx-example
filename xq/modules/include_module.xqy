@@ -135,8 +135,8 @@ declare function tix-include:getTixExplorer(){
             {tix-include:getProjectsAsHtml()}
             <input type="submit" />
         </form>
-        <form action="/search.xqy" method="post">
-            <input type="text" name="searchterm" value="Please enter search term.."/>
+        <form action="/search/default.xqy" method="post">
+            <input type="text" name="word" value="Please enter search word"/>
             <input type="submit" />
         </form>
     </div>
@@ -154,6 +154,21 @@ let $project-html-list :=
 </select>
 return $project-html-list
 };
+
+
+declare function tix-include:getUsersAsHtml(){
+let $user-html-list :=
+<select id="reassign" type="text" name="reassign">
+    {
+    for $item in fn:doc("tix-users.xml")/CodeTable/EnumeratedValues/Item
+    let $inner-node := <option value="{$item/Value}">{$item/Label}</option>
+    return $inner-node
+    }
+</select>
+return $user-html-list
+};
+
+
 (:
 :: Summary:
 ::
@@ -250,20 +265,21 @@ declare function tix-include:generateDashboard($projectId as xs:string){
                 <th>Reporter Id</th>
                 <th>View HTML</th>
                 <th>View XML</th>
+                <th>Update Worflow</th>
             </tr>    
             {
             for $item in fn:collection("tixOpen")
             let $inner-node := 
             <tr>
-            <td>{xdmp:node-uri($item)}</td>
-            <td>{$item/TicketDocument/Ticket/type/text()}</td>
-            <td>{$item/TicketDocument/Ticket/summary/text()}</td>
-            <td>{$item/TicketDocument/Ticket/description/text()}</td>
-            <td>{xdmp:strftime("%a, %d %b %Y %H:%M:%S",$item/TicketDocument/Ticket/createdDate/text())}</td>
-            <td>{$item/TicketDocument/Ticket/ticketPriority/text()}</td>
-            <td>{$item/TicketDocument/Ticket/reporterId/text()}</td>
-            <td><a href="/detail/default.xqy?id={xdmp:node-uri($item)}">View HTML</a></td>
-            <td><a href="/detail/xml.xqy?id={xdmp:node-uri($item)}">View HTML</a></td>
+                <td>{xdmp:node-uri($item)}</td>
+                <td>{$item/TicketDocument/Ticket/type/text()}</td>
+                <td>{$item/TicketDocument/Ticket/summary/text()}</td>
+                <td>{xdmp:strftime("%a, %d %b %Y %H:%M:%S",$item/TicketDocument/Ticket/createdDate/text())}</td>
+                <td>{$item/TicketDocument/Ticket/ticketPriority/text()}</td>
+                <td>{$item/TicketDocument/Ticket/reporterId/text()}</td>
+                <td><a title="View HTML {xdmp:node-uri($item)}" href="/detail/default.xqy?id={xdmp:node-uri($item)}">View/Edit</a></td>
+                <td><a title="View XML for {xdmp:node-uri($item)}" href="/detail/xml.xqy?id={xdmp:node-uri($item)}">XML</a></td>
+                <td><a title="Update Workflow for {xdmp:node-uri($item)}" href="/update/default.xqy?id={xdmp:node-uri($item)}">Update</a></td>
             </tr>
             where ($item/TicketDocument/Ticket/id/text() = $projectId)
             order by $item/TicketDocument/Ticket/createdDate descending

@@ -19,8 +19,15 @@ declare function local:setCreatedDate() {
     return $u2
 };
 
+declare function local:createWorkflowNode() {
+    (: <WorkflowEvents> :)
+    let $u3 := xdmp:node-insert-after(doc(xdmp:get-request-field("id"))/TicketDocument/Ticket, <WorkflowEvents />)
+    return $u3
+};
+
 local:setReporter(),
 local:setCreatedDate(),
+local:createWorkflowNode(),
 xdmp:set-response-content-type("text/html; charset=utf-8"),
 <html>
     {tix-include:getDocumentHead("Ticket Created Successfully!")}

@@ -77,17 +77,6 @@
 									<xs:sequence>
 										<xs:element name="updatedDate" type="xs:dateTime"/>
 										<xs:element name="workflowCommentText" type="xs:string"/>
-										<xs:element name="ticketStatus">
-											<xs:simpleType>
-												<xs:restriction base="xs:string">
-												<xs:enumeration value="Open"/>
-												<xs:enumeration value="Closed"/>
-												<xs:enumeration value="Reopened"/>
-												<xs:enumeration value="Fixed"/>
-												<xs:enumeration value="WillNotFix"/>
-												</xs:restriction>
-											</xs:simpleType>
-										</xs:element>
 										<xs:element name="workflowUserId" type="xs:string"/>
 									</xs:sequence>
 								</xs:complexType>

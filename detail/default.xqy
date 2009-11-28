@@ -20,7 +20,7 @@ xdmp:set-response-content-type("text/html; charset=utf-8"),
     <div id="container">
     {tix-include:getHeader()}
     <div id="main-content">
-    
+    <p><a title="Update this document ({xdmp:get-request-field("id")})" href="/update/default.xqy?{xdmp:get-request-field("id")}">Update {xdmp:get-request-field("id")}</a></p>
     <h2>we got this:</h2>
         <dl>
             <dt>Document Stored as:</dt>

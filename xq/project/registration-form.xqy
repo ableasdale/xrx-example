@@ -32,7 +32,7 @@ xdmp:set-response-content-type("text/html; charset=utf-8"),
                 
                 <p class="inputfield">
                     <label for="description">Project name: </label>
-                    <input type="description" name="desc" />
+                    <input id="description" type="text" name="desc" />
                 </p>
 
                 <p>

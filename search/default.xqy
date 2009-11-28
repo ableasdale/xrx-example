@@ -26,7 +26,7 @@ xdmp:set-response-content-type("text/html; charset=utf-8"),
             return
 
             <tr>
-                <td>{xdmp:node-uri($item)}</td>
+                <td><a title="View {xdmp:node-uri($item)}" href="/detail/default.xqy?id={xdmp:node-uri($item)}">View {xdmp:node-uri($item)}</a></td>
                 <td>{$item/summary/text()}</td>
                 <td>{$item/description/text()}</td>
             </tr>
