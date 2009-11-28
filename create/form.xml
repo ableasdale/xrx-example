@@ -91,8 +91,8 @@
         <!-- Code Tables for Select-1s -->
         <xforms:instance id="ticketType" src="code-tables/ticketType.xml"></xforms:instance>
         <xforms:instance id="ticketPriority" src="code-tables/ticketPriority.xml"></xforms:instance>
-        <!-- TODO - this isn't so good - should be a relative path -->
-        <xforms:instance id="registeredUsers" src="http://localhost:8005/xq/user/list.xqy"></xforms:instance>
+        <xforms:instance id="registeredUsers" src="../xq/user/list.xqy"></xforms:instance>
+        <xforms:instance id="registeredProjects" src="../xq/project/list.xqy"></xforms:instance>
         <!-- Submission -->
     	<xforms:submission id="create-ticket" method="put" replace="all" action="save.xqy" ref="instance('ticket-instance')">
     		<xforms:toggle case="case-busy" ev:event="xforms-submit" />
@@ -100,7 +100,10 @@
     		<xforms:toggle case="case-submit-error" ev:event="xforms-submit-error" />
     	</xforms:submission>
         <!-- XForm bindings -->
-    	<xforms:bind nodeset="/TicketDocument/Ticket/dueDate" type="xsd:dateTime" required="true()" />
+    	<xforms:bind nodeset="/TicketDocument/Ticket/dueDate" type="xsd:dateTime" />
+        <xforms:bind nodeset="/TicketDocument/Ticket/summary" type="xsd:string" required="true()" />
+        <xforms:bind nodeset="/TicketDocument/Ticket/description" type="xsd:string" required="true()" />
+    	
     	
     	<!--  These fields are not used for creating tickets
     	<xforms:bind nodeset="/TicketDocument/Ticket/createdDate" type="xsd:dateTime" required="true()" />
@@ -127,6 +130,15 @@
                     <xforms:label>Id</xforms:label>
                     <xforms:hint>Id is (string, REQUIRED)</xforms:hint>
                 </xforms:input></p> -->
+                
+                <p><xforms:select1 model="ticketCreator" ref="/TicketDocument/Ticket/id">
+                    <xforms:label>Project Id</xforms:label>
+                    <xforms:itemset nodeset="instance('registeredProjects')/EnumeratedValues/Item">
+                        <xforms:label ref="Label"></xforms:label>
+                        <xforms:value ref="Value"></xforms:value>
+                    </xforms:itemset>
+                    <xforms:hint>The specific project (or widget) that you're associating this ticket against</xforms:hint>
+                </xforms:select1></p> 
                 
                 <p><xforms:select1 model="ticketCreator" ref="/TicketDocument/Ticket/type">
                 	<xforms:label>Type</xforms:label>

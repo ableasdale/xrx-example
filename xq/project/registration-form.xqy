@@ -27,7 +27,7 @@ xdmp:set-response-content-type("text/html; charset=utf-8"),
             <form action="/xq/project/register.xqy" method="post"> 
                 <p class="inputfield">
                     <label for="projname">Project Code/Acronym (Max 5 Characters): </label>
-                    <input id="projname" type="text" name="user" maxlength="5" />
+                    <input id="projname" type="text" name="name" maxlength="5" />
                 </p>
                 
                 <p class="inputfield">

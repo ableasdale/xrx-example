@@ -3,13 +3,13 @@
   <Ticket>
     <id>0</id>
     <type>bug</type>
-    <summary>summary</summary>
-    <description>description</description>
+    <summary/>
+    <description/>
     <assigneeId>assigneeId</assigneeId>
     <reporterId>reporterId</reporterId>
     <ticketPriority>critical</ticketPriority>
     <ticketStatus>open</ticketStatus>
     <createdDate>2001-12-31T12:00:00</createdDate>
-    <dueDate>2001-12-31T12:00:00</dueDate>
+    <dueDate>2009-11-31T12:00:00</dueDate>
   </Ticket>
 </TicketDocument>

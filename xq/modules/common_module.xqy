@@ -155,9 +155,18 @@ declare function tix-common:updateUserDoc($user as xs:string, $desc as xs:string
 };
 
 (:
+:: Updates node in project doc
+:)
+declare function tix-common:updateProjectDoc($name as xs:string, $desc as xs:string){
+    xdmp:node-insert-child(fn:doc(
+            "tix-projects.xml")/CodeTable/EnumeratedValues,
+            <Item><Label>{$desc}</Label><Value>{$name}</Value></Item>)
+};
+
+(:
 :: !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-:: TODO - talk to someone about how the XSLTForms PI can be injected into an xqy file. 
-:: This currently DOES NOT WORK
+:: TODO - talk to someone at ML about how the XSLTForms PI can be injected into an xqy file. 
+:: This currently DOES NOT WORK -- at least; not for me.
 :)
 declare function tix-common:generateXsltFormsPi(){
     let $pi := "<?xml-stylesheet href='xsltforms/xsltforms.xsl' type='text/xsl'?>"

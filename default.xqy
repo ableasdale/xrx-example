@@ -18,7 +18,7 @@ import module namespace tix-include = "http://www.alexbleasdale.co.uk/tix-includ
     {tix-include:getHeader()}
     <div id="main-content">
         {tix-include:getAdminPanel()}
-        TODO: Admin panel and Dashboard Component(s)
+        TODO: Dashboard Component(s)
     </div>
     {tix-include:getFooter()}
     </div>

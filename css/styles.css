@@ -17,7 +17,7 @@ p.inputfield input {width:15em;}
 .strong {font-weight:bold;}
 .cta-panel {background:#f5f5dc; margin-top:2em; padding:1em; border:1px dotted yellow;}
 .cta-warning {background:pink; padding:1em; border:1px dotted red;}
-.cta-info {background:white; padding:1em; border:1px dotted blue;}
+.cta-info {background:white; padding:1em; border:1px dotted #3b6b9c;}
 
 #header {background:#194e84;}
 #header h1 {padding:0.5em 1em; margin:0;}

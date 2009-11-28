@@ -23,7 +23,26 @@ import module "http://marklogic.com/xdmp/security" at "security.xqy";
 :: 
 :)
 declare function tix-include:getDocumentHead($pageName as xs:string){
-  let $head := <head xmlns="http://www.w3.org/1999/xhtml"><title>{$pageName} | TiX Bug Tracker v0.1</title><link rel="stylesheet" type="text/css" media="screen, projection" href="../../css/styles.css" /></head>
+  let $head := 
+  <head xmlns="http://www.w3.org/1999/xhtml">
+    <title>{$pageName} | TiX Bug Tracker v0.1</title>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <link rel="stylesheet" type="text/css" media="screen, projection" href="/css/styles.css" />
+    <script type="text/javascript" src="/js/jquery-1.3.2.min.js"></script>
+    <script type="text/javascript" src="/js/jquery.qtip-1.0.0-rc3.min.js"></script>
+    <script type="text/javascript">
+    /* <![CDATA[ */
+    $(document).ready(function() {
+        $('a[title]').qtip({ 
+        
+        position: {
+        corner: { target: 'topMiddle', tooltip: 'bottomMiddle'} }, adjust: { screen: true },
+        style: { border: { width:7, radius:5}, padding:5, name: 'dark', tip: true } }
+        )
+    });
+    /* ]]> */
+    </script>
+  </head>
   return $head  
 };
 
@@ -44,7 +63,7 @@ declare function tix-include:getCurrentUserCredentials(){
  else
     <div class="split-pane">
         <p class="left">Currently Logged in as: <span class="user">{xdmp:get-current-user()}</span></p>
-        <p class="right"><a href="/xq/user/logout.xqy" title="This will end your TiX session">Logout</a></p>
+        <p class="right"><a href="/" title="This will take you to your dashboard">Home</a> | <a href="/xq/user/logout.xqy" title="This will end your TiX session">Logout</a></p>
         <br class="clearboth" />
     </div>
  
@@ -74,13 +93,15 @@ declare function tix-include:getAdminUserLink(){
 :)
 declare function tix-include:getAdminPanel(){
     let $admin-panel := if (xdmp:get-current-user() = "admin") then
-        <p class="cta-panel">
-            There are currently <strong>{tix-include:getTotalUsers()}</strong> users and <strong>{tix-include:getTotalProjects()}</strong> projects<br />
-            <a href="/xq/user/registration-form.xqy">create new user account</a><br />
-            <a href="/xq/project/registration-form.xqy">create new project</a><br />
+        <p class="cta-info">
+            There are currently <strong>{tix-include:getTotalUsers()}</strong> registered users and <strong>{tix-include:getTotalProjects()}</strong> registered projects<br /><br />
+            <strong>Quick links for <span class="information">{xdmp:get-current-user()}</span>:</strong>&nbsp;<a title="This takes you to the new user registration form" href="/xq/user/registration-form.xqy">Create a new user account</a> | <a title="This takes you to the new project registration form" href="/xq/project/registration-form.xqy">Create a new project</a> | <a title="This takes you to the new ticket XForm" href="/create/form.xml">Create a new ticket</a>
         </p>
     else
-        <p class="cta-panel">TODO - normal user panel</p>
+        <p class="cta-info">
+            Quick links for <span class="information">{xdmp:get-current-user()}</span><br />
+            <a href="/create/form.xml">Create new ticket</a>
+        </p>
     return $admin-panel
 };
 
