@@ -2,9 +2,11 @@ xquery version "1.0-ml";
 
 import module namespace tix-common = "http://www.alexbleasdale.co.uk/tix-common" at "/xq/modules/common_module.xqy";
 
+declare namespace xsi="http://www.w3.org/2001/XMLSchema-instance";
+
 declare function local:getCollectionContents($collection as xs:string){
 let $node := for $doc in collection($collection)
-      return <p><a href="getCrv.xqy?recipeName={document-uri($doc)}">a-doc</a>
+      return <p><a href="/detail/default.xqy?id={document-uri($doc)}">{document-uri($doc)}-doc</a>
       </p>
 return $node
 };
