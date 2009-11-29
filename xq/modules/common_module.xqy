@@ -24,6 +24,25 @@ declare function tix-common:getDocCount($collection as xs:string, $id as xs:stri
     return $count
 };
 
+
+(:
+:: Summary:
+::
+::      Performs a code table lookup (getting the Value from a Label in an XML code table 
+::
+:: Parameters:
+::
+::      $docname 
+::            The name of the doc in the xmldb
+::
+::      $node-value
+::            The "value" to match to return the corresponding label  
+:)
+declare function tix-common:getCodeTableLabelFromValue($docname as xs:string, $node-value as xs:string){
+    let $label := fn:doc($docname)/CodeTable/EnumeratedValues/Item/Value[text() = $node-value]/preceding-sibling::*[1]/text()
+    return $label
+};
+
 (:
 :: Summary:
 ::
@@ -135,12 +154,12 @@ declare function tix-common:checkForUserDocument()
 declare function tix-common:createInitDocuments(){
     xdmp:document-insert(
              "tix-users.xml", 
-             <CodeTable><DataElementName>registeredUsers</DataElementName><EnumeratedValues><Item><Label>(Please Choose)</Label><Value/></Item></EnumeratedValues></CodeTable>,
+             <CodeTable><DataElementName>registeredUsers</DataElementName><EnumeratedValues><Item><Label>(Choose a User)</Label><Value/></Item></EnumeratedValues></CodeTable>,
              xdmp:default-permissions(),
              "tix-admin"),
     xdmp:document-insert(
              "tix-projects.xml", 
-             <CodeTable><DataElementName>registeredProjects</DataElementName><EnumeratedValues><Item><Label>(Please Choose)</Label><Value/></Item></EnumeratedValues></CodeTable>,
+             <CodeTable><DataElementName>registeredProjects</DataElementName><EnumeratedValues><Item><Label>(Choose a Project)</Label><Value/></Item></EnumeratedValues></CodeTable>,
              xdmp:default-permissions(),
              "tix-admin")
 };

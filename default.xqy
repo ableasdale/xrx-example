@@ -7,6 +7,7 @@
 xquery version "1.0-ml";
 
 import module namespace tix-include = "http://www.alexbleasdale.co.uk/tix-include" at "/xq/modules/include_module.xqy";
+import module namespace tix-table = "http://www.alexbleasdale.co.uk/tix-table" at "/xq/modules/table_module.xqy";
 
 	if (xdmp:get-current-user() = "nobody") then
 		xdmp:redirect-response ("xq/user/login.xqy")
@@ -19,7 +20,7 @@ import module namespace tix-include = "http://www.alexbleasdale.co.uk/tix-includ
     <div id="main-content">
         {tix-include:getTixExplorer()}
         {tix-include:getAdminPanel()}
-        {tix-include:generateDashboard(xdmp:get-request-field("projectChooser"))}
+        {tix-table:generateDashboard()}
     </div>
     {tix-include:getFooter()}
     </div>

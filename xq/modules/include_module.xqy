@@ -36,16 +36,22 @@ declare function tix-include:getDocumentHead($pageName as xs:string){
     <script type="text/javascript">
     /* <![CDATA[ */
     $(document).ready(function() {
-    
-        $("#dashboard-project-overview").tablesorter({widthFixed: true, widgets: ['zebra']}) 
-    .tablesorterPager({container: $("#pager")}); 
-    
-        $('a[title]').qtip({ 
         
+        $('[title]').qtip({ 
         position: {
         corner: { target: 'topMiddle', tooltip: 'bottomMiddle'} }, adjust: { screen: true },
         style: { border: { width:7, radius:5}, padding:5, name: 'dark', tip: true } }
-        )
+        );
+        
+        $(".hide").hide();
+        
+        // TODO - The 'pager' is buggy if there are zero issues in a project; 
+        // should be fairly easy to fix if I need to later..
+        
+        $("#dashboard-project-overview").tablesorter({widthFixed: true, widgets: ['zebra']}) 
+    .tablesorterPager({container: $("#pager")});
+    
+        
     });
     /* ]]> */
     </script>
@@ -134,17 +140,28 @@ declare function tix-include:getTotalProjects() as xs:integer {
    return $projects
 };
 
+
+(:
+:: Summary:
+::
+::      Gets the Explorer for the TiX Dashboard pages; this is a standard UI 
+::      enabling the user to switch between available projects and adds the 
+::      search functionality for word searches
+::
+:)
 declare function tix-include:getTixExplorer(){
     let $tix-explorer := 
-    <div id="project-explorer">
-        <form action="/" method="post">
+    <div id="project-explorer" class="split-pane">
+            <form class="left" title="Select a project to view the dashboard" action="/" method="post" onchange="this.submit();">
             {tix-include:getProjectsAsHtml()}
-            <input type="submit" />
+            <input class="hide" type="submit" value="View Dashboard"/>
         </form>
-        <form action="/search/default.xqy" method="post">
-            <input type="text" name="word" value="Please enter search word"/>
-            <input type="submit" />
+        <form class="right" action="/search/default.xqy" method="post">
+            <input class="mr10" type="text" name="word" title="Please enter search word to locate tickets"/>
+            <label for="word-search" class="hide">Search keyword: </label>
+            <input id="word-search" type="submit" value="Search" />
         </form>
+        <br class="clearboth" />
     </div>
     return $tix-explorer
 };
@@ -161,6 +178,14 @@ let $project-html-list :=
 return $project-html-list
 };
 
+(:  TODO - currently breaking the app... if req-field is empty :/
+declare function tix-include:isSelected($item as xs:string) {
+    let $sel := if( $item/Value[ text() = xdmp:get-request-field("projectChooser") ]) then 
+        <option selected="selected" value="{$item/Value}">{$item/Label}</option>
+        else <option value="{$item/Value}">{$item/Label}</option>
+    return $sel
+};
+:)
 
 declare function tix-include:getUsersAsHtml(){
 let $user-html-list :=
@@ -245,74 +270,6 @@ declare function tix-include:checkForWarnings(){
     else
     <p class="cta-info">Welcome! Please log in using the form below</p>
     return $status
-};
-
-(: todo - doesn't look like method overriding works! - this can probably be deleted:)
-declare function tix-include:generateDashboard(){
- let $response :=
-    <div id="dashboard">
-        <h2>Dashboard - default</h2>
-    </div>
-    return $response
-};
-
-
-declare function tix-include:generateDashboard($projectId as xs:string){
-    let $response :=
-    <div id="dashboard">
-        <h2>Dashboard for {$projectId}</h2>
-        <table class="tablesorter" id="dashboard-project-overview">
-        <thead> 
-            <tr>
-                <th>Project Uri</th>
-                <th>Type</th>
-                <th>Summary</th>
-                <th>Created Date</th>
-                <th>Priority</th>
-                <th>Reporter Id</th>
-                <th>View HTML</th>
-                <th>View XML</th>
-                <th>Update Worflow</th>
-            </tr>
-         </thead>    
-         <tbody>
-            {
-            for $item in fn:collection("tixOpen")
-            let $inner-node := 
-            <tr>
-                <td>{xdmp:node-uri($item)}</td>
-                <td>{$item/TicketDocument/Ticket/type/text()}</td>
-                <td>{$item/TicketDocument/Ticket/summary/text()}</td>
-                <td>{xdmp:strftime("%a, %d %b %Y %H:%M:%S",$item/TicketDocument/Ticket/createdDate/text())}</td>
-                <td>{$item/TicketDocument/Ticket/ticketPriority/text()}</td>
-                <td>{$item/TicketDocument/Ticket/reporterId/text()}</td>
-                <td><a title="View HTML {xdmp:node-uri($item)}" href="/detail/default.xqy?id={xdmp:node-uri($item)}">View/Edit</a></td>
-                <td><a title="View XML for {xdmp:node-uri($item)}" href="/detail/xml.xqy?id={xdmp:node-uri($item)}">XML</a></td>
-                <td><a title="Update Workflow for {xdmp:node-uri($item)}" href="/update/default.xqy?id={xdmp:node-uri($item)}">Update</a></td>
-            </tr>
-            where ($item/TicketDocument/Ticket/id/text() = $projectId)
-            order by $item/TicketDocument/Ticket/createdDate descending
-            return $inner-node
-            }
-            </tbody>
-        </table>
-        <div id="pager" class="pager">
-            <form>
-                <img class="first" src="/img/first.png"/>
-                <img class="prev" src="/img/prev.png"/>
-                <input class="pagedisplay" type="text"/>
-                <img class="next" src="/img/next.png"/>
-                <img class="last" src="/img/last.png"/>
-            <select class="pagesize">
-                <option selected="selected"  value="10">10</option>
-                <option value="20">20</option>
-                <option value="30">30</option>
-                <option  value="40">40</option>
-            </select>
-            </form>
-        </div>
-    </div>
-    return $response
 };
 
 
