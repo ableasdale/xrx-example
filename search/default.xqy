@@ -30,7 +30,7 @@ xdmp:set-response-content-type("text/html; charset=utf-8"),
                 <td>{$item/summary/text()}</td>
                 <td>{$item/description/text()}</td>
             </tr>
-            }
+        }
         </table>
         
     return $elem
