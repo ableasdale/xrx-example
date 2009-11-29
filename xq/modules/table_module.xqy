@@ -36,6 +36,11 @@ declare function tix-table:getProjectNameById($projectId as xs:string) {
     return $projectName   
 };
 
+declare function tix-table:getDoc() {
+    let $doc := fn:doc(xdmp:get-request-field("id"))
+    return $doc
+};
+
 
 (:
 :: Summary:
@@ -91,21 +96,101 @@ declare function tix-table:generateDashboard(){
             }
             </tbody>
         </table>
-        <div id="pager" class="pager">
-            <form>
-                <img class="first" src="/img/first.png"/>
-                <img class="prev" src="/img/prev.png"/>
-                <input class="pagedisplay" type="text"/>
-                <img class="next" src="/img/next.png"/>
-                <img class="last" src="/img/last.png"/>
-            <select class="pagesize">
-                <option selected="selected"  value="10">10</option>
-                <option value="20">20</option>
-                <option value="30">30</option>
-                <option  value="40">40</option>
-            </select>
-            </form>
-        </div>
+        {tix-table:getPagerWidget()}
     </div>
     return $response
+};
+
+(:
+:: Summary:
+::
+::      Generates standard table "Dashboard markup" for TiX Dashboards
+::
+:)
+declare function tix-table:getWorkflow(){
+let $workflow-table := 
+<div id="workflow">
+    <table class="tablesorter" id="dashboard-project-overview">
+      <thead>
+        <tr>
+            <th>Workflow Date</th>
+            <th>Workflow Comment</th>
+            <th>Workflow User</th>
+        </tr>
+      </thead>
+      <tbody>
+        {
+         for $item in tix-table:getDoc()/TicketDocument/WorkflowEvents/WorkflowEvent
+            let $inner-node := 
+            <tr>
+                <td>{xdmp:strftime("%a, %d %b %Y %H:%M:%S",$item/updatedDate/text())}</td>
+                <td>{$item/workflowCommentText/text()}</td>
+                <td>{$item/workflowUserId/text()}</td>
+            </tr>
+            return $inner-node
+        }
+      </tbody>
+    </table>
+    {tix-table:getPagerWidget()}
+</div>
+    return $workflow-table
+};
+
+
+declare function tix-table:getSearchResults(){
+    let $elem := 
+    <div id="search-results">
+        <table class="tablesorter" id="dashboard-project-overview">
+        <thead>
+            <tr>
+                <th>View Document</th>
+                <th>Summary</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+        {
+            for $item in cts:search(//TicketDocument/Ticket (:[and preding-sibling::/*[1]]:)
+            , cts:word-query(xdmp:get-request-field("word")) )
+            return
+            <tr>
+                <td><a title="View {xdmp:node-uri($item)}" href="/detail/default.xqy?id={xdmp:node-uri($item)}">View {xdmp:node-uri($item)}</a></td>
+                <td>{$item/summary/text()}</td>
+                <td>{$item/description/text()}</td>
+            </tr>
+        }
+        </tbody>
+        </table>
+        {tix-table:getPagerWidget()}
+    </div>    
+    return $elem 
+};
+
+
+
+
+(:
+:: Summary:
+::
+::      Generates a pager widget for TiX Dashboards
+::
+:)
+declare function tix-table:getPagerWidget(){
+let $pager :=
+<div id="pager" class="pager">
+    <form>
+        <img class="first" src="/img/first.png"/>
+        <img class="prev" src="/img/prev.png"/>
+        <input class="pagedisplay" type="text"/>
+        <img class="next" src="/img/next.png"/>
+        <img class="last" src="/img/last.png"/>
+    <select class="pagesize">
+        <option selected="selected"  value="10">10</option>
+        <option value="20">20</option>
+        <option value="30">30</option>
+        <option  value="40">40</option>
+    </select>
+    </form>
+</div>
+return $pager
 };
