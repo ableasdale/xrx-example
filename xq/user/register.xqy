@@ -1,22 +1,13 @@
 (:
- : Copyright (c) 2004 Mark Logic Corporation
- :
- : Licensed under the Apache License, Version 2.0 (the "License");
- : you may not use this file except in compliance with the License.
- : You may obtain a copy of the License at
- :
- : http://www.apache.org/licenses/LICENSE-2.0
- :
- : Unless required by applicable law or agreed to in writing, software
- : distributed under the License is distributed on an "AS IS" BASIS,
- : WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- : See the License for the specific language governing permissions and
- : limitations under the License.
- :
- : The use of the Apache License does not indicate that this project is
- : affiliated with the Apache Software Foundation.
- :)
+::     Registers a TiX user
+::    
+::      The design pattern for this method is based a method found in this document:
+::      <strong>http://xqzone.marklogic.com/svn/userlogin/trunk/register.xqy</strong>
+::      and neither currently handle a user which already exists.
+:)
+xquery version "1.0-ml";
 
+import module namespace tix-include = "http://www.alexbleasdale.co.uk/tix-include" at "/xq/modules/include_module.xqy";
 import module "http://marklogic.com/xdmp/security" at "/xq/modules/security.xqy";
 import module namespace tix-common = "http://www.alexbleasdale.co.uk/tix-common" at "/xq/modules/common_module.xqy";
 
@@ -27,34 +18,57 @@ let $user := xdmp:get-request-field("user", ""),
     
 return
 if (($password != $password2) or ($password = "")) then
-    <html xmlns="http://www.w3.org/1999/xhtml">
-      <body>
-	{ if (($password = "") and ($password2 = "")) then
-		<h2>You did not provide a password</h2>
-          else
-		<h2>You did not type the same password both times</h2>
-	}
-        <p>
-        Please hit the "Back" button and re-type your password
-        </p>
-      </body>
-    </html>
-	
+<html xmlns="http://www.w3.org/1999/xhtml">
+    {tix-include:getDocumentHead("TiX: Issue with your password?")}
+    <body>
+        <div id="container">
+            {tix-include:getHeader()}
+            <div id="main-content">
+                <div id="cta" class="center">
+                { if (($password = "") and ($password2 = "")) then
+                    <h2>You did not provide a password</h2>
+                else
+                    <h2>You did not type the same password both times</h2>
+                }
+                    <p>Please <a title="Create a new user account" href="/xq/user/registration-form.xqy">try again</a></p>
+                </div>
+            </div>
+            {tix-include:getFooter()}
+        </div>
+    </body>
+</html>
 else if (tix-common:registerUser($user,$desc,$password)) then
     let $updateUserDoc := tix-common:updateUserDoc($user, $desc)
     return
-    <html xmlns="http://www.w3.org/1999/xhtml">
-      <body>
-        <h2>Congratulations! You are successfully registered with the site</h2>
-        <p>
-        Please login by clicking <a href="login.xqy"> login </a>
-        </p>
-      </body>
-    </html>
-
+<html xmlns="http://www.w3.org/1999/xhtml">
+    {tix-include:getDocumentHead("TiX: User Account Created")}
+    <body>
+        <div id="container">
+            {tix-include:getHeader()}
+            <div id="main-content">
+                <div id="cta" class="center">
+                    <h2 class="information">Good News!</h2>
+                    <p>The account {$user} has now been created.</p>
+                    <p>While you're logged in as an administrator, why not <a title="Create a new user account" href="/xq/user/registration-form.xqy">create more?</a></p>
+                </div>
+            </div>
+            {tix-include:getFooter()}
+        </div>
+    </body>
+</html>
 else 
-    <html xmlns="http://www.w3.org/1999/xhtml">
-      <body>
-        There are problems in registering. Please contact the site administrator at <a href="mailto:admin@yourdomain.com">admin@yourdomain.com</a>
-      </body>
-    </html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+    {tix-include:getDocumentHead("TiX: Bad News... :( ")}
+    <body>
+        <div id="container">
+            {tix-include:getHeader()}
+            <div id="main-content">
+                <div id="cta" class="center">
+                    <h2 class="information">Looks like something went wrong...</h2>
+                    <p>Please contact your administrator at <a href="mailto:admin@example.com">admin@example.com</a></p>
+                </div>
+            </div>
+            {tix-include:getFooter()}
+        </div>
+    </body>
+</html>
