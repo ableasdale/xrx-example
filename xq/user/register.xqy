@@ -8,7 +8,6 @@
 xquery version "1.0-ml";
 
 import module namespace tix-include = "http://www.alexbleasdale.co.uk/tix-include" at "/xq/modules/include_module.xqy";
-import module "http://marklogic.com/xdmp/security" at "/xq/modules/security.xqy";
 import module namespace tix-common = "http://www.alexbleasdale.co.uk/tix-common" at "/xq/modules/common_module.xqy";
 
 let $user := xdmp:get-request-field("user", ""),

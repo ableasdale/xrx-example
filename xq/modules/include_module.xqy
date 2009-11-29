@@ -5,9 +5,8 @@
 : @version 1.0
 :)
 xquery version "1.0-ml";
-
 module namespace tix-include="http://www.alexbleasdale.co.uk/tix-include";
-import module "http://marklogic.com/xdmp/security" at "security.xqy";
+import module "http://marklogic.com/xdmp/security" at "/MarkLogic/security.xqy";
 
 (:
 :: Summary:

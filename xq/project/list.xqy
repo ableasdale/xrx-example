@@ -3,8 +3,6 @@
     Create proper user administration page for admin
 :)
 xquery version "1.0-ml";
-
-import module "http://marklogic.com/xdmp/security" at "/xq/modules/security.xqy";
 import module namespace tix-common = "http://www.alexbleasdale.co.uk/tix-common" at "/xq/modules/common_module.xqy";
 
 (:

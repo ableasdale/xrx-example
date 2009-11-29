@@ -5,7 +5,6 @@
 : @version 1.0
 :)
 xquery version "1.0-ml";
-
 import module namespace tix-include = "http://www.alexbleasdale.co.uk/tix-include" at "/xq/modules/include_module.xqy";
 import module namespace tix-table = "http://www.alexbleasdale.co.uk/tix-table" at "/xq/modules/table_module.xqy";
 

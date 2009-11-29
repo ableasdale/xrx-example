@@ -5,9 +5,7 @@
 : @version 1.0
 :)
 xquery version "1.0-ml";
-
 module namespace tix-table = "http://www.alexbleasdale.co.uk/tix-table";
-
 import module namespace tix-common = "http://www.alexbleasdale.co.uk/tix-common" at "/xq/modules/common_module.xqy";
 
 (:
@@ -136,7 +134,12 @@ let $workflow-table :=
     return $workflow-table
 };
 
-
+(:
+:: Summary:
+::
+::      Generates search result table
+::
+:)
 declare function tix-table:getSearchResults(){
     let $elem := 
     <div id="search-results">
@@ -165,8 +168,6 @@ declare function tix-table:getSearchResults(){
     </div>    
     return $elem 
 };
-
-
 
 
 (:
