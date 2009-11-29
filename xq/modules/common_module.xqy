@@ -19,8 +19,8 @@ import module "http://marklogic.com/xdmp/security" at "security.xqy";
 ::      $collection 
 ::            The name of the collection  
 :)
-declare function tix-common:getDocCount($collection as xs:string){
-    let $count := fn:count(fn:collection($collection))
+declare function tix-common:getDocCount($collection as xs:string, $id as xs:string){
+    let $count := fn:count(fn:collection($collection)//id[text() = $id])
     return $count
 };
 
@@ -41,7 +41,7 @@ declare function tix-common:getDocCount($collection as xs:string){
 ::            The name of the collection  
 :)
 declare function tix-common:createFileName($projectId as xs:string, $collection as xs:string) as xs:string {
-    let $filename := fn:concat($projectId, "-", (1 + tix-common:getDocCount($collection)), ".xml")
+    let $filename := fn:concat($projectId, "-", (1 + tix-common:getDocCount($collection, $projectId)), ".xml")
     return $filename
 };
 
@@ -166,7 +166,7 @@ declare function tix-common:updateProjectDoc($name as xs:string, $desc as xs:str
 (:
 :: !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 :: TODO - talk to someone at ML about how the XSLTForms PI can be injected into an xqy file. 
-:: This currently DOES NOT WORK -- at least; not for me.
+:: This currently does not seem to work -- at least; not for me.
 :)
 declare function tix-common:generateXsltFormsPi() as xs:string {
     let $pi := "<?xml-stylesheet href='xsltforms/xsltforms.xsl' type='text/xsl'?>"

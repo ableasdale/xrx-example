@@ -56,7 +56,7 @@ xdmp:set-response-content-type("text/html; charset=utf-8"),
                         <dt>Due Date:</dt>
                         <dd>{local:getDocument()/TicketDocument/Ticket[1]/dueDate[1]/text()}</dd>
                     </dl>
-                    <p><a title="List all currently open tickets" href="/list/default.xqy?colname=tixOpen">List All Open Tickets</a></p>
+                    <p><a title="Return to the Project Dashboard" href="/default.xqy?projectChooser={xdmp:get-request-field("id")}">Back to Dashboard for this Project</a></p>
                     <p><a title="View HTML Representation of the Ticket" href="/detail/default.xqy?id={xdmp:get-request-field("id")}">View Document (XHTML)</a></p>
                     <p><a title="View XML Representation of the Ticket" href="/detail/xml.xqy?id={xdmp:get-request-field("id")}">View Document (XML)</a></p>
                 </div>

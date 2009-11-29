@@ -31,9 +31,13 @@ declare function tix-include:getDocumentHead($pageName as xs:string){
     <script type="text/javascript" src="/js/jquery-1.3.2.min.js"></script>
     <script type="text/javascript" src="/js/jquery.qtip-1.0.0-rc3.min.js"></script>
     <script type="text/javascript" src="/js/jquery.highlight-3.yui.js"></script>
+    <script type="text/javascript" src="/js/jquery.tablesorter.min.js"></script>
     <script type="text/javascript">
     /* <![CDATA[ */
     $(document).ready(function() {
+    
+        $("#dashboard-project-overview").tablesorter(); 
+    
         $('a[title]').qtip({ 
         
         position: {
@@ -255,7 +259,8 @@ declare function tix-include:generateDashboard($projectId as xs:string){
     let $response :=
     <div id="dashboard">
         <h2>Dashboard for {$projectId}</h2>
-        <table border="1">
+        <table class="tablesorter" id="dashboard-project-overview">
+        <thead> 
             <tr>
                 <th>Project Uri</th>
                 <th>Type</th>
@@ -266,7 +271,9 @@ declare function tix-include:generateDashboard($projectId as xs:string){
                 <th>View HTML</th>
                 <th>View XML</th>
                 <th>Update Worflow</th>
-            </tr>    
+            </tr>
+         </thead>    
+         <tbody>
             {
             for $item in fn:collection("tixOpen")
             let $inner-node := 
@@ -285,6 +292,7 @@ declare function tix-include:generateDashboard($projectId as xs:string){
             order by $item/TicketDocument/Ticket/createdDate descending
             return $inner-node
             }
+            </tbody>
         </table>
     </div>
     return $response

@@ -24,7 +24,7 @@ xdmp:set-response-content-type("text/html; charset=utf-8"),
                     <!-- TODO - why can't I use $name and $desc here? -->
                     <p><strong>Project Id/Code: </strong> {xdmp:get-request-field("name", "")}</p>
                     <p><strong>Project Name: </strong> {xdmp:get-request-field("desc", "")}</p>
-                    <p><a title="This will take you back to your dashboard" href="/">Home</a></p>
+                    <p><a title="This will take you back to your dashboard" href="/default.xqy?projectChooser={xdmp:get-request-field("name", "")}">Go to the Project Dashboard</a></p>
                 </div>
             </div>
             {tix-include:getFooter()}

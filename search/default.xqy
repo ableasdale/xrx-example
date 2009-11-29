@@ -12,12 +12,15 @@ xdmp:set-response-content-type("text/html; charset=utf-8"),
     <h2>TiX: Search for '{xdmp:get-request-field("word")}'</h2>
     {
     let $elem := 
-        <table>
+        <table class="tablesorter" id="dashboard-project-overview">
+        <thead>
             <tr>
                 <th>View Document</th>
                 <th>Summary</th>
                 <th>Description</th>
             </tr>
+        </thead>
+        <tbody>
         {
         (: cts:element-values(xs:QName("animal"),"aardvark") [and preceding-sibling::] :)
             for $item in cts:search(//TicketDocument/Ticket (:[and preding-sibling::[1]]:)
@@ -31,6 +34,7 @@ xdmp:set-response-content-type("text/html; charset=utf-8"),
                 <td>{$item/description/text()}</td>
             </tr>
         }
+        </tbody>
         </table>
         
     return $elem
