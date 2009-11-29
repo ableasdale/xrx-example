@@ -32,11 +32,13 @@ declare function tix-include:getDocumentHead($pageName as xs:string){
     <script type="text/javascript" src="/js/jquery.qtip-1.0.0-rc3.min.js"></script>
     <script type="text/javascript" src="/js/jquery.highlight-3.yui.js"></script>
     <script type="text/javascript" src="/js/jquery.tablesorter.min.js"></script>
+    <script type="text/javascript" src="/js/jquery.tablesorter.pager.js"></script>
     <script type="text/javascript">
     /* <![CDATA[ */
     $(document).ready(function() {
     
-        $("#dashboard-project-overview").tablesorter(); 
+        $("#dashboard-project-overview").tablesorter({widthFixed: true, widgets: ['zebra']}) 
+    .tablesorterPager({container: $("#pager")}); 
     
         $('a[title]').qtip({ 
         
@@ -294,6 +296,24 @@ declare function tix-include:generateDashboard($projectId as xs:string){
             }
             </tbody>
         </table>
+        <div id="pager" class="pager">
+            <form>
+                <img class="first" src="/img/first.png"/>
+                <img class="prev" src="/img/prev.png"/>
+                <input class="pagedisplay" type="text"/>
+                <img class="next" src="/img/next.png"/>
+                <img class="last" src="/img/last.png"/>
+            <select class="pagesize">
+                <option selected="selected"  value="10">10</option>
+                <option value="20">20</option>
+                <option value="30">30</option>
+                <option  value="40">40</option>
+            </select>
+            </form>
+        </div>
     </div>
     return $response
 };
+
+
+        
