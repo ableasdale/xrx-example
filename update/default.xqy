@@ -19,10 +19,12 @@ xdmp:set-response-content-type("text/html; charset=utf-8"),
     <div id="main-content">
         <div id="cta" class="center">
             <h2 class="information">Update Ticket Workflow for {xdmp:get-request-field("id")}</h2>
-            <h3>In a later release this would be an XForm (as soon as I can get XQuery to generate/output the XSLTForms PI)</h3>
+            <h3>In a later release this would be an XForm (as soon as I can get MarkLogic XQuery to generate/output the XSLTForms PI)</h3>
             
             <form action="/update/workflow.xqy" method="post"> 
             
+                <input type="hidden" name="id" value="{xdmp:get-request-field("id")}" />
+                
                 <p class="inputfield">
                     <label for="wf-comment">Workflow Comment: </label>
                     <textarea id="wf-comment" name="wf-comment" rows="10" cols="50" />

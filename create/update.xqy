@@ -20,8 +20,8 @@ declare function local:setCreatedDate() {
 };
 
 declare function local:createWorkflowNode() {
-    (: <WorkflowEvents> :)
-    let $u3 := xdmp:node-insert-after(doc(xdmp:get-request-field("id"))/TicketDocument/Ticket, <WorkflowEvents />)
+    let $u3 := xdmp:node-insert-after(doc(xdmp:get-request-field("id"))/TicketDocument/Ticket,
+    <WorkflowEvents/>)
     return $u3
 };
 
