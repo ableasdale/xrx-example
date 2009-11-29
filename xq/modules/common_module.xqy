@@ -103,7 +103,7 @@ declare function tix-common:registerUser (
     $password as xs:string) as xs:boolean
 {
  
-    if (xdmp:eval-in(fn:concat('import module "http://marklogic.com/xdmp/security" at "/xq/modules/security.xqy"; sec:create-user("',$user,'","',$desc,'","',$password,'", "app-user",(),())'),xdmp:security-database())) then
+    if (xdmp:eval-in(fn:concat('import module "http://marklogic.com/xdmp/security" at "/MarkLogic/security.xqy"; sec:create-user("',$user,'","',$desc,'","',$password,'", "app-user",(),())'),xdmp:security-database())) then
        fn:true()
     else
        fn:false()
